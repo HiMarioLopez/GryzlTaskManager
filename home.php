@@ -8,7 +8,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 </head>
 <body>
-
+	
 	<h2>Welcome to the home screen, <?php echo ucwords($_COOKIE['current_user']) ?>!</h2>
 
 	<p>Choose what you would like to do:</p>
