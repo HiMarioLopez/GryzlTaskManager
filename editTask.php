@@ -41,7 +41,7 @@
 	  <!--Only 6 Months in Advance-->
 	    <br>
 	    <label for="duedate">Due Date:</label>
-	    <input type="date" id="duedate" name="duedate" min="2017-04-01" max="2018-04-20" required>
+	    <input id="datetime" type="datetime-local" name="duedate" required>
 	    <span class="validity"></span> <br> <br>
 	</div>
 	  <input type="Submit" name="Submit1" value="Assign Groups?">
