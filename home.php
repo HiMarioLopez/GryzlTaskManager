@@ -67,9 +67,9 @@
 		$result = mysqli_query($link, $qry);
 
 		if(mysqli_num_rows($result) > 0) {
-			echo "<table> <tr> 
-			<th>GroupID</th> 
-			<th>OwnerID</th> 
+			echo "<table> <tr>
+			<th>GroupID</th>
+			<th>OwnerID</th>
 			<th>Status</th>
 			<th>Leave Group</th>
 			</tr>";

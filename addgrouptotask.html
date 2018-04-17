@@ -8,7 +8,7 @@
 <body>
 	<h3>Assign groups to this task</h3>
     <form action="./php/addgrouptotask_action.php" method="post">
-		<p>Group Name: <input type="text" name="newGroup" required><br></p>
+		<p>Group Name: <input type="text" name="newGroup" maxlength="50" required><br></p>
 		<input type="submit" name="tonext" value="Add another group">           
 		<input type="submit" name="tonext" value="Add this group only">
     </form>

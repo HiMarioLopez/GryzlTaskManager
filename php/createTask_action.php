@@ -12,7 +12,7 @@
   require 'functions.php';
 
   // todo: Don't use root
-  $link = mysqli_connect("localhost","root", "", "Gryzl");
+  $link = connectToServer();
 
   $tas_ID = $_POST["taskname"];
   $tas_Priority = $_POST["priority"];
@@ -20,6 +20,7 @@
   $tas_Progress = $_POST["progress"];
   $tas_DueDate = $_POST["duedate"];
 
+  /* @todo: Set due HOUR */
   $tas_ID = sanatize($link, $tas_ID);
   $tas_DueDate = strtotime($tas_DueDate);
   $tas_DueDate = date('Y-m-d H:i:s', $tas_DueDate);

@@ -9,10 +9,11 @@
 
 <?php
   // todo: Don't use root
-  $link = mysqli_connect("localhost","root", "", "Gryzl");
+  $link = connectToServer();
 
   $newuser = $_POST["newuser"];
-  $moremems= $_POST["addmems"];
+  $moremems = $_POST["addmems"];
+
   $qry = "SELECT COUNT(*) FROM Users WHERE Users.usr_ID = '" . $newuser . "' GROUP BY usr_ID;";
   $result = mysqli_query($link, $qry);
 

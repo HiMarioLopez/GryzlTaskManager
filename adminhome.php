@@ -22,12 +22,9 @@
 	<h4>Current Users:</h4>
 
 	<?php
-		$link = mysqli_connect("localhost","root", "", "Gryzl");
-
-		if (mysqli_connect_errno()) {
-			printf("Connect failed: %s\n", mysqli_connect_error());
-			exit();
-		}
+		include_once 'functions.php';
+	
+		$link = connectToServer();
 
 		$qry = "SELECT * FROM Users INNER JOIN Privileges ON usr_ID = pri_usr_ID";
 		$result = mysqli_query($link, $qry);
@@ -67,12 +64,7 @@
 
 	<?php
 
-		$link = mysqli_connect("localhost","root", "", "Gryzl");
-
-		if (mysqli_connect_errno()) {
-			printf("Connect failed: %s\n", mysqli_connect_error());
-			exit();
-		}
+		$link = connectToServer();
 
 		$qry = "SELECT * FROM Tasks";
 		$result = mysqli_query($link, $qry);

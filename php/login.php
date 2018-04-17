@@ -14,12 +14,7 @@
   require 'functions.php';
   
   // todo: Don't use root
-  $link = mysqli_connect("localhost","root", "", "Gryzl");
-  
-  if (mysqli_connect_errno()) {
-    printf("Connect failed: %s\n", mysqli_connect_error());
-    exit();
-  }
+  $link = connectToServer();
 
   $username = $_POST["username"];
   $password = $_POST["password"];

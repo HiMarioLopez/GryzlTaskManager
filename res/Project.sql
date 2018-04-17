@@ -6,7 +6,7 @@ CREATE TABLE Users (
 );
 
 CREATE TABLE Groups (
-	gro_ID VARCHAR(20), 
+	gro_ID VARCHAR(30), 
 	gro_ownerID  VARCHAR(20) NOT NULL,
 	gro_Status CHAR(1) NOT NULL,
 	PRIMARY KEY (gro_ID)
@@ -19,7 +19,7 @@ CREATE TABLE Privileges(
 );
 
 CREATE TABLE Tasks (
-	tas_ID VARCHAR(20),
+	tas_ID VARCHAR(100),
 	tas_Category CHAR(15) NOT NULL,
 	tas_DueDate DATETIME,
 	tas_Priority CHAR(1),
@@ -29,19 +29,19 @@ CREATE TABLE Tasks (
 );
 
 CREATE TABLE Task_Owners (
-	tow_tas_ID VARCHAR(20),
+	tow_tas_ID VARCHAR(100),
 	tow_usr_ID VARCHAR(20),
 	INDEX (tow_tas_ID)
 );
 
 CREATE TABLE Task_Groups (
-	tgr_tas_ID VARCHAR(20),
-	tgr_gro_ID VARCHAR(20),
+	tgr_tas_ID VARCHAR(100),
+	tgr_gro_ID VARCHAR(30),
 	INDEX (tgr_tas_ID)
 );
 
 CREATE TABLE Group_Members (
-	grm_gro_ID VARCHAR(20),
+	grm_gro_ID VARCHAR(30),
 	grm_usr_ID VARCHAR(20),
 	INDEX (grm_gro_ID)
 );

@@ -12,7 +12,7 @@
   require 'functions.php';
 
   // todo: Don't use root
-  $link = mysqli_connect("localhost","root", "", "Gryzl");
+  $link = connectToServer();
 
   $newuser = $_POST["newuser"];
   $moremems= $_POST["addmems"];

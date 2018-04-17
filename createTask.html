@@ -11,7 +11,7 @@
 	<p>So What Do You Need to Do? <br><br></p>
 	
 	<form action="./php/createTask_action.php" method="post">
-	Task Name: <input type="text" name="taskname"><br><br>
+	Task Name: <input type="text" name="taskname" maxlength="100" required><br><br>
 	Priority: <br>
 	  <input type="radio" name="priority" value="h" checked> RIGHT NOW! <br>
 	  <input type="radio" name="priority" value="m"> Sometime Soon. <br>

@@ -8,8 +8,10 @@
 -->
 
 <?php
+  require 'functions.php';
+
   // todo: Don't use root
-  $link = mysqli_connect("localhost","root", "", "Gryzl");
+  $link = connectToServer();
 
   $qry = "INSERT INTO Task_Groups (tgr_tas_ID, tgr_gro_ID) VALUES ('" . $_COOKIE["currTaskName"] . "', '" . $_POST["newGroup"] . "');";
   

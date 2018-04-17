@@ -14,7 +14,7 @@ CREATE TABLE Users (
 usr_ID 
 VARCHAR(20) NOT NULL, 
 usr_Email 
-VARCHAR(255) NOT NULL, 
+VARCHAR(50) NOT NULL, 
 usr_Password 
 VARCHAR(20) NOT NULL,
 PRIMARY KEY (usr_ID),
@@ -39,7 +39,7 @@ CREATE TABLE Groups (
 gro_ID 
 VARCHAR(50) NOT NULL, 
 gro_ownerID  
-VARCHAR(50) NOT NULL,
+VARCHAR(20) NOT NULL,
 gro_Status 
 CHAR(2) NOT NULL,
 PRIMARY KEY (gro_ID)
@@ -66,7 +66,7 @@ INSERT INTO `Privileges` VALUES ('ad','spongebob'),
 DROP TABLE IF EXISTS Tasks;
 CREATE TABLE Tasks (
 tas_ID 
-VARCHAR(20),
+VARCHAR(100),
 tas_Category 
 CHAR(15) NOT NULL,
 tas_DueDate 
@@ -84,9 +84,9 @@ INSERT INTO `Tasks` VALUES ('addrestrictions','school', '123', 'h', 'half', 'mad
 DROP TABLE IF EXISTS Task_Groups; 
 CREATE TABLE Task_Groups (
 tgr_tas_ID 
-VARCHAR(20),
+VARCHAR(100),
 tgr_gro_ID 
-VARCHAR(20)
+VARCHAR(50)
 /*FOREIGN KEY (tgr_tas_ID) REFERENCES Tasks(tas_ID),
 FOREIGN KEY (tgr_gro_ID) REFERENCES Groups(gro_ID)*/
 );
@@ -95,7 +95,7 @@ INSERT INTO `Task_Groups` VALUES ('addrestrictions','dbproj');
 DROP TABLE IF EXISTS Progress_Task; 
 CREATE TABLE Progress_Task (
 prg_tas_ID 
-VARCHAR(20),
+VARCHAR(100),
 prg_upd8Time
 VARCHAR(20)
 /*FOREIGN KEY (prg_tas_ID) REFERENCES Tasks('tas_ID') ON DELETE CASCADE ON UPDATE CASCADE*/
@@ -104,7 +104,7 @@ VARCHAR(20)
 DROP TABLE IF EXISTS Group_Members; 
 CREATE TABLE Group_Members (
 grm_gro_ID 
-VARCHAR(20),
+VARCHAR(50),
 grm_usr_ID 
 VARCHAR(20)
 /*FOREIGN KEY (grm_gro_ID) REFERENCES Groups(gro_ID),
