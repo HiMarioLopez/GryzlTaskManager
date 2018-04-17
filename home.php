@@ -18,39 +18,69 @@
 		Add Task:  <input type="radio" name="homeAction" value="addTask"><br>
 		<input type="submit">
 
-		<h4>Current Groups You're A Part Of:</h4>
-
+		<h4>Current Groups You Manage:</h4>
+		
 		<?php
-		$link = mysqli_connect("localhost","root", "", "Gryzl");
+		include_once './php/functions.php';
+	
+		$link = connectToServer();
 
-		if (mysqli_connect_errno()) {
-			printf("Connect failed: %s\n", mysqli_connect_error());
-			exit();
-		}
-
-		$qry = "SELECT * FROM Users INNER JOIN Group_Members ON usr_ID = grm_usr_ID WHERE usr_ID='" . $_COOKIE['current_user'] . "'";
+		$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
+						FROM Groups INNER JOIN Group_Members ON gro_ID = grm_gro_ID 
+						WHERE Group_Members.grm_usr_ID ='" . $_COOKIE['current_user'] . "'";
 		$result = mysqli_query($link, $qry);
 
 		if(mysqli_num_rows($result) > 0) {
 			echo "<table> <tr> 
-			<th>usr_ID<\th> 
-			<th>usr_Email</th> 
-			<th>usr_Password</th>
-			<th>pri_type</th>
-			<th>pri_usr_ID</th>
-			<th>Edit User</th>
-			<th>Delete User</th>
+			<th>GroupID</th> 
+			<th>OwnerID</th> 
+			<th>Status</th>
+			<th>Edit Group</th>
+			<th>Delete Group</th>
 			</tr>";
 
 			// Output data of each row
 			while($row = mysqli_fetch_assoc($result)) {
-				echo "<tr><td>" . $row["usr_ID"] .
-				"</td><td>" . $row["usr_Email"] .
-				"</td><td>" . $row["usr_Password"] .
-				"</td><td>" . $row["pri_type"] .
-				"</td><td>" . $row["pri_usr_ID"] .
-				"</td><td> <button type=\"button\">Edit Me!</button>" .
-				"</td><td> <button type=\"button\">Delete Me!</button>" .
+				echo "<tr><td>" . $row["GroupID"] .
+				"</td><td>" . $row["OwnerID"] .
+				"</td><td>" . $row["Status"] .
+				"</td><td> <input type=\"Submit\" name=\"Submit\" value=\"Edit\">"  .
+				"</td><td> <input type=\"Submit\" name=\"Submit\" value=\"Delete\">"  .
+				"</td></tr>";
+			}
+			echo "</table>";
+			} else {
+			echo "0 results";
+		}
+
+		mysqli_free_result($result);
+		mysqli_close($link);
+		?>
+		
+		<h4>Current Groups You're A Part Of:</h4>
+
+		<?php
+		$link = connectToServer();
+
+		$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
+						FROM Groups INNER JOIN Group_Members ON gro_ID = grm_gro_ID 
+						WHERE Group_Members.grm_usr_ID ='" . $_COOKIE['current_user'] . "'";
+		$result = mysqli_query($link, $qry);
+
+		if(mysqli_num_rows($result) > 0) {
+			echo "<table> <tr> 
+			<th>GroupID</th> 
+			<th>OwnerID</th> 
+			<th>Status</th>
+			<th>Leave Group</th>
+			</tr>";
+
+			// Output data of each row
+			while($row = mysqli_fetch_assoc($result)) {
+				echo "<tr><td>" . $row["GroupID"] .
+				"</td><td>" . $row["OwnerID"] .
+				"</td><td>" . $row["Status"] .
+				"</td><td> <input type=\"Submit\" name=\"Submit\" value=\"Leave\">"  .
 				"</td></tr>";
 			}
 			echo "</table>";
@@ -65,39 +95,32 @@
 		<h4>Current Tasks</h4>
 
 		<?php
+		$link = connectToServer();
 
-		$link = mysqli_connect("localhost","root", "", "Gryzl");
-
-		if (mysqli_connect_errno()) {
-			printf("Connect failed: %s\n", mysqli_connect_error());
-			exit();
-		}
-
-		$qry = "SELECT * FROM Tasks WHERE tas_usr_ID='" . $_COOKIE['current_user'] . "'";
+		$qry = "SELECT tas_ID TaskID, tas_Category Category, tas_DueDate DueDate, tas_Priority Priority, tas_Progress Progress
+						FROM Tasks WHERE tas_usr_ID='" . $_COOKIE['current_user'] . "'";
 		$result = mysqli_query($link, $qry);
 
 		if(mysqli_num_rows($result) > 0) {
 			echo "<table> <tr> 
-			<th>tas_ID<\th> 
-			<th>tas_Category</th> 
-			<th>tas_DueDate</th> 
-			<th>tas_Priority</th>
-			<th>tas_Progress</th>
-			<th>tas_usr_ID</th>
+			<th>TaskID</th> 
+			<th>Category</th> 
+			<th>DueDate</th> 
+			<th>Priority</th>
+			<th>Progress</th>
 			<th>Edit Task</th>
 			<th>Delete Task</th>
 			</tr>";
 
 			// Output data of each row
 			while($row = mysqli_fetch_assoc($result)) {
-				echo "<tr><td>" . $row["tas_ID"] .
-				"</td><td>" . $row["tas_Category"] .
-				"</td><td>" . $row["tas_DueDate"] .
-				"</td><td>" . $row["tas_Priority"] .
-				"</td><td>" . $row["tas_Progress"] .
-				"</td><td>" . $row["tas_usr_ID"] .
-				"</td><td> <button type=\"button\">Edit Me!</button>" .
-				"</td><td> <button type=\"button\">Delete Me!</button>" .
+				echo "<tr><td>" . $row["TaskID"] .
+				"</td><td>" . $row["Category"] .
+				"</td><td>" . $row["DueDate"] .
+				"</td><td>" . $row["Priority"] .
+				"</td><td>" . $row["Progress"] .
+				"</td><td> <input type=\"Submit\" name=\"Submit\" value=\"Edit\">"  .
+				"</td><td> <input type=\"Submit\" name=\"Submit\" value=\"Delete\">"  .
 				"</td></tr>";
 			}
 			echo "</table>";
