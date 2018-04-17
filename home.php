@@ -26,8 +26,7 @@
 		$link = connectToServer();
 
 		$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
-						FROM Groups INNER JOIN Group_Members ON gro_ID = grm_gro_ID 
-						WHERE Group_Members.grm_usr_ID ='" . $_COOKIE['current_user'] . "'";
+						FROM Groups WHERE gro_ownerID = '" . $_COOKIE['current_user'] . "'";
 		$result = mysqli_query($link, $qry);
 
 		if(mysqli_num_rows($result) > 0) {
@@ -50,7 +49,7 @@
 			}
 			echo "</table>";
 			} else {
-			echo "0 results";
+			echo "<table> <tr><td>None!</td></tr> </table>";
 		}
 
 		mysqli_free_result($result);
