@@ -21,7 +21,7 @@
 		<h4>Current Groups You Manage:</h4>
 		
 		<?php
-		include_once './php/functions.php';
+		require './php/functions.php';
 	
 		$link = connectToServer();
 
@@ -33,9 +33,9 @@
 			echo "<table> <tr> 
 			<th>GroupID</th> 
 			<th>OwnerID</th> 
-			<th>Status</th>
-			<th>Edit Group</th>
-			<th>Delete Group</th>
+			<th>Status</th>       
+			<th>Edit Group</th> 
+			<th>Delete Group</th> 
 			</tr>";
 
 			// Output data of each row
@@ -43,7 +43,7 @@
 				echo "<tr><td>" . $row["GroupID"] .
 				"</td><td>" . $row["OwnerID"] .
 				"</td><td>" . $row["Status"] .
-				"</td><td> <input type=\"Submit\" name=\"Submit\" value=\"Edit\">"  .
+				"</td><td> <input type=\"Submit\" name=\"".$row["GroupID"] . "\" value=\"Edit\">" .
 				"</td><td> <input type=\"Submit\" name=\"Submit\" value=\"Delete\">"  .
 				"</td></tr>";
 			}

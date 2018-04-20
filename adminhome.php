@@ -22,7 +22,7 @@
 	<h4>Current Users:</h4>
 
 	<?php
-		include_once 'functions.php';
+		include_once './php/functions.php';
 	
 		$link = connectToServer();
 
@@ -47,8 +47,16 @@
 				"</td><td>" . $row["usr_Password"] .
 				"</td><td>" . $row["pri_type"] .
 				"</td><td>" . $row["pri_usr_ID"] .
-				"</td><td> <button type=\"button\">Edit Me!</button>" .
-				"</td><td> <button type=\"button\">Delete Me!</button>" .
+				
+        /* This chunk of HTML allows us to edit or delete selected entries from the database */
+        "<form action=\"./php/editUser.php\" method=\"POST\">" .
+          "</td><td>" .
+          "<input type=\"submit\" name=\"action\" value=\"Edit\"/>" .
+          "</td><td>" .
+          "<input type=\"submit\" name=\"action\" value=\"Delete\"/>" .
+          "<input type=\"hidden\" name=\"id\" value=\"" . $row['usr_ID'] . "\"/>" .
+        "</form>" .
+          
 				"</td></tr>";
 			}
 			echo "</table>";
@@ -88,9 +96,17 @@
 				"</td><td>" . $row["tas_DueDate"] .
 				"</td><td>" . $row["tas_Priority"] .
 				"</td><td>" . $row["tas_Progress"] .
-				"</td><td>" . $row["tas_usr_ID"] .
-				"</td><td> <button type=\"button\">Edit Me!</button>" .
-				"</td><td> <button type=\"button\">Delete Me!</button>" .
+				"</td><td>" . $row["tas_usr_ID"] . 
+          
+        // This chunk of HTML allows us to edit or delete selected entries from the database
+        "<form action=\"./php/editTask.php\" method=\"POST\">" .
+          "</td><td>" .
+          "<input type=\"submit\" name=\"action\" value=\"Edit\"/>" .
+          "</td><td>" .
+          "<input type=\"submit\" name=\"action\" value=\"Delete\"/>" .
+          "<input type=\"hidden\" name=\"id\" value=\"" . $row['tas_ID'] . "\"/>" .
+        "</form>" .
+          
 				"</td></tr>";
 			}
 			echo "</table>";

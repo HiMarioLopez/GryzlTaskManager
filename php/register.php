@@ -22,11 +22,14 @@
   $password = sanatize($link, $password);
   $email = sanatize($link, $email);
 
+  $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
   $username = strtolower($username);
   $email = strtolower($email);
 
   if (isset($username)){
-    $usr_qry = "INSERT INTO Users (usr_ID, usr_Email, usr_Password) VALUES ( '" . $username . "' , '" . $email . "' , '" . $password . "');";
+    $usr_qry = "INSERT INTO Users (usr_ID, usr_Email, usr_Password) 
+                VALUES ( '" . $username . "' , '" . $email . "' , '" . $password_hash . "');";
     $pri_qry = "INSERT INTO Privileges VALUES ('pb', '" . $username . "');";
     
     if (mysqli_query($link, $usr_qry) && mysqli_query($link, $pri_qry)) {
@@ -39,7 +42,6 @@
     }
   }
 
-  mysqli_free_result($result);
   mysqli_close($link);
   exit();
 

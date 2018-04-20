@@ -9,9 +9,9 @@
   }
 
   function setGryzlCookie($cookie_name, $username) {
-      unset($_COOKIE[$cookie_name]);
-      setcookie($cookie_name, $username, time() +  (86400 * 30), "/");
-      echo "Cookie has been set! " . $_COOKIE[$cookie_name];
+    unset($_COOKIE[$cookie_name]);
+    setcookie($cookie_name, $username, time() +  (86400 * 30), "/");
+    echo "Cookie has been set! " . $_COOKIE[$cookie_name];
   }
 
   // @todo: don't use root

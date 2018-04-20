@@ -7,8 +7,10 @@
      - needs to clear the cookie/delete it when it is done
 -->
 
+
 <?php
-  // todo: Don't use root
+  require 'functions.php';
+
   $link = connectToServer();
 
   $newuser = $_POST["newuser"];
@@ -17,17 +19,16 @@
   $qry = "SELECT COUNT(*) FROM Users WHERE Users.usr_ID = '" . $newuser . "' GROUP BY usr_ID;";
   $result = mysqli_query($link, $qry);
 
-  if ( $result == TRUE) {
+  if ( $result == TRUE) { 
+    // @todo: STORED PROCEDURE
     $qry = "INSERT INTO Group_Members (grm_gro_ID, grm_usr_ID) VALUES ( '". $_COOKIE["currGroupName"]  . "', ' ". $newuser . "');";
     if (mysqli_query($link, $qry) === TRUE) {
-      if ($moremems  == 'done') {
+      if ($moremems  == 'done')
         header('Location: ../home.php');
-      } else {
+      else
         header('Location: ../addmemstogroup.html');
-      }
     } 
-    exit;
-  } else {
+    exit();
+  } else
       echo "Error2: " . $qry . "<br>" . $link->error;
-  }
 ?>

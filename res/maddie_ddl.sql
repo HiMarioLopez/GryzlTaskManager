@@ -16,7 +16,7 @@ VARCHAR(20) NOT NULL,
 usr_Email 
 VARCHAR(50) NOT NULL, 
 usr_Password 
-VARCHAR(20) NOT NULL,
+VARCHAR(255) NOT NULL,
 PRIMARY KEY (usr_ID),
 UNIQUE(usr_Email)
 );
