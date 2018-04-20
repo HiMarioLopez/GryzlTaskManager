@@ -31,7 +31,7 @@
 
 		if(mysqli_num_rows($result) > 0) {
 			echo "<table> <tr> 
-			<th>usr_ID<\th> 
+			<th>usr_ID</th> 
 			<th>usr_Email</th> 
 			<th>usr_Password</th>
 			<th>pri_type</th>
@@ -79,7 +79,7 @@
 
 		if(mysqli_num_rows($result) > 0) {
 			echo "<table> <tr> 
-			<th>tas_ID<\th> 
+			<th>tas_ID</th> 
 			<th>tas_Category</th> 
 			<th>tas_DueDate</th> 
 			<th>tas_Priority</th>
