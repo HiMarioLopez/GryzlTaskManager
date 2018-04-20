@@ -118,8 +118,16 @@
 				"</td><td>" . $row["DueDate"] .
 				"</td><td>" . $row["Priority"] .
 				"</td><td>" . $row["Progress"] .
-				"</td><td> <input type=\"Submit\" name=\"Submit\" value=\"Edit\">"  .
-				"</td><td> <input type=\"Submit\" name=\"Submit\" value=\"Delete\">"  .
+				
+        // This chunk of HTML allows us to edit or delete selected entries from the database
+        "<form action=\"./php/editTask.php\" method=\"POST\">" .
+          "</td><td>" .
+          "<input type=\"submit\" name=\"action\" value=\"Edit\"/>" .
+          "</td><td>" .
+          "<input type=\"submit\" name=\"action\" value=\"Delete\"/>" .
+          "<input type=\"hidden\" name=\"id\" value=\"" . $row['TaskID'] . "\"/>" .
+        "</form>" .
+          
 				"</td></tr>";
 			}
 			echo "</table>";

@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>Add Group</title>
-	<link rel="stylesheet" type="text/css" href="./css/style.css">
-	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+  <title>Add Group</title>
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 </head>
+
 <body>
-	<h3>Assign groups to this task</h3>
-    <form action="./php/addgrouptotask_action.php" method="post">
-		<p>Group Name: <input type="text" name="newGroup" maxlength="50" required><br></p>
-		<input type="submit" name="tonext" value="Add another group">           
-		<input type="submit" name="tonext" value="Add this group only">
-    </form>
+  <h3>Assign groups to this task</h3>
+  <form action="./php/addgrouptotask_action.php" method="post">
+    <p>Group Name: <input type="text" name="newGroup" maxlength="50" required><br></p>
+    <input type="submit" name="tonext" value="Add another group">
+    <input type="submit" name="tonext" value="Add this group only">
+  </form>
 </body>
+
 </html>
