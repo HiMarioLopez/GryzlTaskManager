@@ -2,7 +2,6 @@
 
   require 'functions.php';
 
-  // todo: Don't use root
   $link = connectToServer();
 
   $tas_ID = $_POST["taskname"];
@@ -12,28 +11,25 @@
   $tas_DueDate = $_POST["duedate"];
   $oldTaskname = $_POST["old_taskname"];
 
-  $oldTaskname = sanatize($link, $oldTaskname);
   $tas_ID = sanatize($link, $tas_ID);
+  $oldTaskname = sanatize($link, $oldTaskname);
   $tas_DueDate = strtotime($tas_DueDate);
   $tas_DueDate = date('Y-m-d H:i:s', $tas_DueDate);
 
   // Checking to see what attributes the user would like to update
+
+  // No new task name or due date entered
   if (empty($_POST["taskname"]) && empty($_POST["duedate"])) {
   
-    // Storeed Procedure
-    $qry = "UPDATE Tasks SET " . 
-    "tas_Priority='" . $tas_Priority . "'," .
-    "tas_Category='" . $tas_Category . "'," . 
-    "tas_Progress='" . $tas_Progress . "' " .
-    "WHERE tas_ID='" . $oldTaskname . "'";
+    // Stored Procedure
+    $qry = "UPDATE Tasks SET tas_Priority='$tas_Priority', tas_Category='$tas_Category', tas_Progress='$tas_Progress' WHERE tas_ID='$oldTaskname'";
     
-    if (mysqli_query($link, $qry) == TRUE) {
-      
-      header("Location: ../home.php");
-      exit();
-      
-    } else
+    if (mysqli_query($link, $qry) == TRUE)
+      redirectHome();
+    else
       echo "Error: " . $qry . "<br>" . $link->error;
+    
+  // New due date was entered, but not a new task name
   } else if (empty($_POST["taskname"]) && !empty($_POST["duedate"])) {
         
     // Stored Procedure
@@ -44,13 +40,12 @@
     "tas_DueDate='" . $tas_DueDate . "' " .
     "WHERE tas_ID=\"" . $oldTaskname . "\"";
     
-    if (mysqli_query($link, $qry) == TRUE) {
-      
-      header("Location: ../home.php");
-      exit();
-    
-    } else
+    if (mysqli_query($link, $qry) == TRUE)
+      redirectHome();
+    else
       echo "Error: " . $qry . "<br>" . $link->error;
+  
+  // New task name was entered, but not a new due date 
   } else if (empty($_POST["duedate"]) && !empty($_POST["taskname"])) {
     
     // Stored Procedure
@@ -61,18 +56,12 @@
     "tas_Progress='" . $tas_Progress . "' " .
     "WHERE tas_ID=\"" . $oldTaskname . "\"";
 
-    if (mysqli_query($link, $qry) == TRUE) {
-      
-      echo $tas_ID . "<br>";
-      echo $tas_Priority . "<br>";
-      echo $tas_Category . "<br>";
-      echo $tas_Progress . "<br>";
-      echo $oldTaskname . "<br>";
-      header("Location: ../home.php");
-      exit();
-      
-    } else
+    if (mysqli_query($link, $qry) == TRUE)
+      redirectHome();
+    else
       echo "Error: " . $qry . "<br>" . $link->error;
+  
+  // New values for everything
   } else {
     
     // Stored Procedure
@@ -84,20 +73,11 @@
     "tas_DueDate='" . $tas_DueDate . "' " .
     "WHERE tas_ID=\"" . $oldTaskname . "\"";
     
-    if (mysqli_query($link, $qry) == TRUE) {
-      
-      echo $tas_ID . "<br>";
-      echo $tas_Priority . "<br>";
-      echo $tas_Category . "<br>";
-      echo $tas_Progress . "<br>";
-      echo $tas_DueDate . "<br>";
-      echo $oldTaskname . "<br>";
-      
-      header("Location: ../home.php");
-      exit();
-      
-    } else
+    if (mysqli_query($link, $qry) == TRUE)
+      redirectHome();
+    else
       echo "Error: " . $qry . "<br>" . $link->error;
+    
   } 
 exit();
 ?>

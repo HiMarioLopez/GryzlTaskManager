@@ -1,16 +1,6 @@
-<!-- What this page currently does (4.12.2018)
-     - will check the submit button to see if there is another group to add or to go to the home page if no more are added
--->
-<!-- What this page needs to do: (4.12.2018)
-      - physically adding the group to the database (not currently adding the groups to the database)
-      - cookies needed: taskID from make task page
-      - need to also insert the new group ID 
--->
-
 <?php
   require 'functions.php';
 
-  // todo: Don't use root
   $link = connectToServer();
 
   // @todo: STORED PROCEDURE
@@ -22,7 +12,7 @@
        header('Location: ./addgrouptotask.html');
     
     else if ($_POST['tonext'] == "Add this group only"){
-       header('Location:../home.php');
+       redirectHome();
       
   } else
     echo "error: " . mysqli_query($qry, $link)->error_log;

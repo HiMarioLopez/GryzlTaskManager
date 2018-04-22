@@ -3,9 +3,8 @@
 require 'functions.php';
 
 if ($_POST['action'] && $_POST['id']) {
+	// Editing a task!
   if ($_POST['action'] == 'Edit') {
-    
-    /* Let's edit a task! */
     
     $taskName = $_POST['id'];
     echo "<h3>You're currently editing " . $taskName . "</h3>";
@@ -16,9 +15,9 @@ if ($_POST['action'] && $_POST['id']) {
     $result = mysqli_query($link, $qry);
     
     $row = mysqli_fetch_assoc($result);
-    
+
+	// Deleting a task!
   } else if($_POST['action'] == 'Delete') {
-    /* Let's delete this task! */
     $taskName = $_POST['id'];
     
     /* @TODO: Delete task here */
@@ -73,7 +72,7 @@ if ($_POST['action'] && $_POST['id']) {
 	    <input id="datetime" type="datetime-local" name="duedate">
 	    <span class="validity"></span> <br> <br>
 	</div>
-    <input type="hidden" name="old_taskname" value=" <?php echo $taskName ?> ">
+    <input type="hidden" name="old_taskname" value="<?php echo $taskName ?>">
 	  <input type="Submit" name="submitChanges" value="Submit Changes">
 	  <input type="Submit" name="removeGroups" value="Remove Groups">
 	  <input type="Submit" name="addGroups" value="Add New Groups">

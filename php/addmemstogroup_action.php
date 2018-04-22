@@ -1,17 +1,7 @@
-<!-- What this page currently does (4.12.2018)
-     - adds members to a group that has already set the cookie
--->
-
-<!-- What this page need (4.12.2018)
-     - check if the user even exists in the database
-     - needs to clear the cookie/delete it when it is done
--->
-
 <?php
   
   require 'functions.php';
 
-  // todo: Don't use root
   $link = connectToServer();
 
   $newuser = $_POST["newuser"];
@@ -20,19 +10,33 @@
   $newuser = sanatize($link, $newuser);
   $newuser = strtolower($newuser);
 
-  $qry = "SELECT COUNT(*) FROM Users WHERE Users.usr_ID = '" . $newuser . "' GROUP BY usr_ID;";
+  $qry = "SELECT COUNT(*) FROM Users WHERE Users.usr_ID = '" . $newuser . "' 
+  GROUP BY usr_ID;";
   $result = mysqli_query($link, $qry);
 
   if ( $result == TRUE) {
     // @todo: STORED PROCEDURE
-    $qry = "INSERT INTO Group_Members (grm_gro_ID, grm_usr_ID) VALUES ( '". $_COOKIE["currGroupName"]  . "', '". $newuser . "');";
+    $qry = "INSERT INTO Group_Members (grm_gro_ID, grm_usr_ID) 
+    VALUES ( '". $_COOKIE["currGroupName"]  . "', '". $newuser . "');";
     if (mysqli_query($link, $qry) === TRUE) {
       if ($moremems  == 'done')
-        header('Location: ../home.php');
+        redirectHome();
       else
-        header('Location: ../addmemstogroup.html');
+        header('Location: ../addmemstogroup.php');
     } 
     exit();
-  } else
-      echo "Error2: " . $qry . "<br>" . $link->error;
+  } else {
+    echo "Error2: " . $qry . "<br>" . $link->error . "<br>";
+    echo "User not found! <br>";
+    
+    // Redirect button
+    // This is using some scrappy JavaScript embeded into my PHP code...
+    echo "<button id=\"myBtn\">Back to add member page!</button>" .
+          "<script>" .
+          "var btn = document.getElementById('myBtn');" .
+          "btn.addEventListener('click', function() {" .
+          "document.location.href = '../addmemstogroup.php';" .
+          "});" .
+          "</script>";
+  }
 ?>

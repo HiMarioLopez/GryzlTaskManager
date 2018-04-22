@@ -1,15 +1,3 @@
-<!-- What this page currently does (4.15.2018)
-  Mario
-     - Changed from natural join to inner join to suit new db schema.
-     - Added check for administrator accounts vs public accounts.
-     - Added correct links to new pages once you've successfully logged in.
-     - Attempted to add cookie. Am I doing this right?
--->
-
-<!-- What this page need (4.15.2018)
-     - Check to see if the cookie is set correctly.
--->
-
 <?php
   include_once 'functions.php';
   
@@ -18,7 +6,6 @@
   $username = $_POST["username"];
   $password = $_POST["password"];
   
-  // Sanatize user input and convert necessary strings to lower case.
   $username = sanatize($link, $username);
   $password = sanatize($link, $password);
   $username = strtolower($username);
@@ -44,12 +31,11 @@
     if (mysqli_num_rows($result) == 1) {
       // Setting cookie to store what user is currently logged in for this session
       setGryzlCookie("current_user", $username);
+      setGryzlCookie("current_user_permissions", $row["pri_type"]);
       // Check to see if user is an administrator or public user.
-      if($row["pri_type"] == 'ad') {
-        header("Location: ../adminhome.php");
-      } else if($row["pri_type"] == 'pb') {
-        header("Location: ../home.php");
-      }
+      
+      redirectHome();
+      
     // There was an error during input authentication.
     } 
   } else {

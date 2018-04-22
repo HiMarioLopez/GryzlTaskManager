@@ -3,10 +3,8 @@
 require 'functions.php';
 
 if ($_POST['action'] && $_POST['id']) {
-  if ($_POST['action'] == 'Edit') {
-    
-    /* Let's edit a task! */
-    
+	// Editing a user!  
+	if ($_POST['action'] == 'Edit') {
     $userName = $_POST['id'];
     echo "<h3>You're currently editing user " . ucwords($userName) . "</h3>";
     
@@ -17,8 +15,8 @@ if ($_POST['action'] && $_POST['id']) {
     
     $row = mysqli_fetch_assoc($result);
     
+	// Deleting a user!
   } else if($_POST['action'] == 'Delete') {
-    /* Let's delete this task! */
     $userName = $_POST['id'];
     
     /* @TODO: Delete task here */
@@ -42,18 +40,18 @@ if ($_POST['action'] && $_POST['id']) {
 <body>
   
 	<h4>So What Do You Want to Change? <br></h4>
-  Leave blank if you wish to leave an attribute unchanged. <br><br>
+  Leave field blank if you wish to leave an attribute unchanged. <br><br>
 	
-	<form action="./submitTasskEdits.php" method="post">
-	User Name: <input type="text" name="taskname" maxlength="20" <?php echo "placeholder=\"" . $userName . "\"" ?> </input><br>
+	<form action="./submitUserEdits.php" method="POST">
+	User Name: <input type="text" name="usr_ID" maxlength="20" <?php echo "placeholder=\"" . $userName . "\"" ?> </input><br>
   <br>
-  User Email: <input type="email" name="email" maxlength="50" <?php echo "placeholder=\"" . $row["usr_Email"] . "\"" ?> </input><br>
+  User Email: <input type="email" name="usr_Email" maxlength="50" <?php echo "placeholder=\"" . $row["usr_Email"] . "\"" ?> </input><br>
 	<br>
-  User Password: <input type="text" name="password" maxlength="255" <?php echo "placeholder=\"" . $row["usr_Password"] . "\"" ?> </input><br>
+  User Password: <input type="text" name="usr_Password" maxlength="255" <?php echo "placeholder=\"" . $row["usr_Password"] . "\"" ?> </input><br>
 	<br>
-  User Privilege Level: <input type="text" name="privilege" maxlength="2" <?php echo "placeholder=\"" . $row["pri_type"] . "\"" ?> </input><br>
+  User Privilege Level: <input type="text" name="pri_type" maxlength="2" <?php echo "placeholder=\"" . $row["pri_type"] . "\"" ?> </input><br>
   <br>
-    <input type="hidden" name="old_taskname" value=" <?php echo $taskName ?> ">
+    <input type="hidden" name="old_username" value="<?php echo $userName ?>">
 	  <input type="Submit" name="Submit1" value="Confirm Changes">
 	  <input type="Submit" name="Submit2" value="Remove Groups?">
 	</form>

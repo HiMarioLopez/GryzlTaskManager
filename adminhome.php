@@ -1,12 +1,3 @@
-<!-- What this page currently does (4.15.2018)
-  Mario
-     - Admins can now view all tasks and users in the db.
-     - Added styling, buttons that will (eventually) link to edit webpages.
--->
-
-<!-- What this page need (4.15.2018)
-     - Add ability to edit and delete tasks from th is page.
--->
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,8 +9,91 @@
 </head>
 <body>
 
-	<h2>Welcome to the admin home screen</h2>
-	<h4>Current Users:</h4>
+	<h2>Welcome to the admin panel, <?php echo ucwords($_COOKIE['current_user']) ?>!</h2>
+
+	<p>Choose what you would like to do:</p>
+
+	<form action="./php/home_action.php" method="POST">
+		Add Group: <input type="radio" name="homeAction" value="addGroup"><br>
+		Add Task:  <input type="radio" name="homeAction" value="addTask"><br>
+		<input type="submit">
+	</form>
+	
+
+	<h4>Current Groups You Manage:</h4>
+
+	<?php
+	require './php/functions.php';
+
+	$link = connectToServer();
+
+	$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
+					FROM Groups WHERE gro_ownerID = '" . $_COOKIE['current_user'] . "'";
+	$result = mysqli_query($link, $qry);
+
+	if(mysqli_num_rows($result) > 0) {
+		echo "<table> <tr> 
+		<th>GroupID</th> 
+		<th>OwnerID</th> 
+		<th>Status</th>       
+		<th>Edit Group</th> 
+		<th>Delete Group</th> 
+		</tr>";
+
+		// Output data of each row
+		while($row = mysqli_fetch_assoc($result)) {
+			echo "<tr><td>" . $row["GroupID"] .
+			"</td><td>" . $row["OwnerID"] .
+			"</td><td>" . $row["Status"] .
+			"</td><td> <input type=\"Submit\" name=\"".$row["GroupID"] . "\" value=\"Edit\">" .
+			"</td><td> <input type=\"Submit\" name=\"Submit\" value=\"Delete\">"  .
+			"</td></tr>";
+		}
+		echo "</table>";
+		} else {
+		echo "<table> <tr><td>None!</td></tr> </table>";
+	}
+
+	mysqli_free_result($result);
+	mysqli_close($link);
+	?>
+
+	<h4>Current Groups You're A Part Of:</h4>
+
+	<?php
+	$link = connectToServer();
+
+	$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
+					FROM Groups INNER JOIN Group_Members ON gro_ID = grm_gro_ID 
+					WHERE Group_Members.grm_usr_ID ='" . $_COOKIE['current_user'] . "'";
+	$result = mysqli_query($link, $qry);
+
+	if(mysqli_num_rows($result) > 0) {
+		echo "<table> <tr>
+		<th>GroupID</th>
+		<th>OwnerID</th>
+		<th>Status</th>
+		<th>Leave Group</th>
+		</tr>";
+
+		// Output data of each row
+		while($row = mysqli_fetch_assoc($result)) {
+			echo "<tr><td>" . $row["GroupID"] .
+			"</td><td>" . $row["OwnerID"] .
+			"</td><td>" . $row["Status"] .
+			"</td><td> <input type=\"Submit\" name=\"Submit\" value=\"Leave\">"  .
+			"</td></tr>";
+		}
+		echo "</table>";
+		} else {
+		echo "<table> <tr><td>None!</td></tr> </table>";
+	}
+
+	mysqli_free_result($result);
+	mysqli_close($link);
+	?>
+	
+	<h4>All Current Users:</h4>
 
 	<?php
 		include_once './php/functions.php';
@@ -67,7 +141,7 @@
 		mysqli_close($link);
 	?>
 
-	<h4>Current Tasks</h4>
+	<h4>All Current Tasks</h4>
 
 	<?php
 

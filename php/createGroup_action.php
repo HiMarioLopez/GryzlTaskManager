@@ -1,13 +1,3 @@
-<!-- What this page currently does (4.12.2018)
-     - inserts group into the database
-     - sets the currGroupName cookie
-     - sends to add members to group
--->
-
-<!-- What this page need (4.12.2018)
-     - guard against malicious queries
--->
-
 <?php
   require 'functions.php';
   
@@ -24,7 +14,7 @@
     $qry = "INSERT INTO Group_Members VALUES ('" . $groupName . "', '" . $_COOKIE["current_user"] . "');";
     if(mysqli_query($link, $qry) == TRUE) {
       setGryzlCookie("currGroupName", $groupName);
-      header('Location: ../addmemstogroup.html');
+      header('Location: ../addmemstogroup.php');
       exit;
     } else
       echo "Error: " . $qry . "<br>" . $link->error;

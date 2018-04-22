@@ -1,17 +1,7 @@
-<!-- What this page currently does (4.12.2018)
-     - Creates a new user in the database for enetered values.
-     - Also creates entry in Privileges table, defaults to public.
--->
-
-<!-- What this page need (4.12.2018)
-     - Not use root, also forgot to add that to @todo on login.php
--->
-
 <?php
 
   require 'functions.php';
 
-  // @todo: Don't use root
   $link = connectToServer();
 
   $username = $_POST["username"];

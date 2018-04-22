@@ -2,7 +2,6 @@
 
   require 'functions.php';
 
-  // todo: Don't use root
   $link = connectToServer();
 
   $tas_ID = $_POST["taskname"];
@@ -28,8 +27,7 @@
        header('Location: ../addgrouptotask.php');
     }
     elseif ($_POST['Sumbit'] == "Create Task without Groups") {
-      //add group  
-      header('Location: ../home.php');
+      redirectHome();
     }
     exit;
   } else {
