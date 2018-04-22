@@ -1,13 +1,3 @@
-<!-- What this page currently does (4.12.2018)
-     - adds members to a group that has already set the cookie
--->
-
-<!-- What this page need (4.12.2018)
-     - check if the user even exists in the database
-     - needs to clear the cookie/delete it when it is done
--->
-
-
 <?php
   require 'functions.php';
 
@@ -26,7 +16,7 @@
       if ($moremems  == 'done')
         header('Location: ../home.php');
       else
-        header('Location: ../addmemstogroup.html');
+        header('Location: ../home.php');
     } 
     exit();
   } else

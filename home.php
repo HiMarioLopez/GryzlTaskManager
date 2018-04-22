@@ -17,7 +17,8 @@
 		Add Group: <input type="radio" name="homeAction" value="addGroup"><br>
 		Add Task:  <input type="radio" name="homeAction" value="addTask"><br>
 		<input type="submit">
-
+	</form>
+	
 		<h4>Current Groups You Manage:</h4>
 		
 		<?php
@@ -139,7 +140,6 @@
 		mysqli_close($link);
 		?>
 
-	</form>
 
 </body>
 </html>

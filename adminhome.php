@@ -60,7 +60,7 @@
 			}
 			echo "</table>";
 			} else {
-			echo "0 results";
+			echo "<table> <tr><td>None!</td></tr> </table>";
 		}
 
 		mysqli_free_result($result);
@@ -110,7 +110,7 @@
 			}
 			echo "</table>";
 			} else {
-			echo "0 results";
+			echo "<table> <tr><td>None!</td></tr> </table>";
 		}
 
 		mysqli_free_result($result);

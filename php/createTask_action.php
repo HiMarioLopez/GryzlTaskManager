@@ -1,12 +1,3 @@
-<!-- What this page currently does: (4.12.2018)
-     - creates the task in Tasks
-     - assigns the ownerID in the Task Owners table
-     - send the user to add groups if they click either of the buttons
--->
-
-<!-- What this page need to do: (4.12.2018)
-     - send the user to the appropriate page based on what they click
--->
 <?php
 
   require 'functions.php';
@@ -34,8 +25,7 @@
     setGryzlCookie("current_task", $tas_ID);
     
     if ($_POST['Submit'] == "Assign Groups?") {
-      if
-       header('Location: ../addgrouptotask.html');
+       header('Location: ../addgrouptotask.php');
     }
     elseif ($_POST['Sumbit'] == "Create Task without Groups") {
       //add group  

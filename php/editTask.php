@@ -8,11 +8,11 @@ if ($_POST['action'] && $_POST['id']) {
     /* Let's edit a task! */
     
     $taskName = $_POST['id'];
-    echo "<h1>You're currently editing " . $taskName . "</h1>";
+    echo "<h3>You're currently editing " . $taskName . "</h3>";
     
     $link = connectToServer();
 
-    $qry = "SELECT * FROM Tasks WHERE tas_ID='" . $taskName . "'";
+    $qry = "SELECT * FROM Tasks WHERE tas_ID=\"" . $taskName . "\"";
     $result = mysqli_query($link, $qry);
     
     $row = mysqli_fetch_assoc($result);
@@ -41,11 +41,11 @@ if ($_POST['action'] && $_POST['id']) {
 </head>
 <body>
   
-	<h2>So What Do You Want to Change? <br></h2>
+	<h4>So What Do You Want to Change? <br></h4>
 	
-	<form action="./submitTasskEdits.php" method="post">
-	Task Name: <input type="text" name="taskname" maxlength="100" <?php echo "placeholder=\"" . $taskName . "\"" ?> required  </input><br>
-  <br>
+	<form action="./submitTaskEdits.php" method="post">
+	<!-- 	Not Required -->
+	Task Name: <input type="text" name="taskname" maxlength="100" <?php echo "placeholder=\"" . $taskName . "\"" ?>  </input><br>
     <br>Current Priority: <?php echo $row["tas_Priority"] ?> <br>
 	  <input type="radio" name="priority" value="h" checked> RIGHT NOW! <br>
 	  <input type="radio" name="priority" value="m"> Sometime Soon. <br>
@@ -67,14 +67,16 @@ if ($_POST['action'] && $_POST['id']) {
 
 	<div>
 	    <br>
-	    <label for="duedate">Due Date:</label>
-      <br>Current Due Date: <?php echo $row["tas_DueDate"] ?> <br>
-	    <input id="datetime" type="datetime-local" name="duedate" required>
+			<!--   Not Required -->
+			<br>Current Due Date: <?php echo $row["tas_DueDate"] ?> <br>
+	    <label for="duedate">New Due Date:</label>
+	    <input id="datetime" type="datetime-local" name="duedate">
 	    <span class="validity"></span> <br> <br>
 	</div>
     <input type="hidden" name="old_taskname" value=" <?php echo $taskName ?> ">
-	  <input type="Submit" name="Submit1" value="Assign New Groups?">
-	  <input type="Submit" name="Submit2" value="Remove Groups?">
+	  <input type="Submit" name="submitChanges" value="Submit Changes">
+	  <input type="Submit" name="removeGroups" value="Remove Groups">
+	  <input type="Submit" name="addGroups" value="Add New Groups">
 	</form>
 
 </body>
