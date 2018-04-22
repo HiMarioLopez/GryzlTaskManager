@@ -26,7 +26,7 @@
   }
 
 	function redirectHome() {      
-      if($_COOKIE["current_user_permissions"] == "ad") {
+      if($_COOKIE["current_user_permissions"] == 'ad') {
         header("Location: ../adminhome.php");
       } else
         header("Location: ../home.php");

@@ -38,6 +38,7 @@
     
     $collection = $qry;
     
+    // @TODO: Stored Procedure
     $qry = "UPDATE Users INNER JOIN Privileges ON usr_ID = pri_usr_ID SET $qry 
             WHERE usr_ID = \"$old_username\"";
     

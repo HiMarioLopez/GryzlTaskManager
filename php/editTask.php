@@ -74,8 +74,11 @@ if ($_POST['action'] && $_POST['id']) {
 			<!--   Not Required -->
 			<br>Current Due Date: <?php echo $row["tas_DueDate"] ?> <br>
 	    <label for="duedate">New Due Date:</label>
-	    <input id="datetime" type="datetime-local" name="duedate">
-	    <span class="validity"></span> <br> <br>
+	          <input id="datetime" type="datetime-local" name="duedate" 
+             min="2018-04-22T10:00" 
+             max="<2018-10-25T10:00" 
+             step="3600">
+		        <span class="validity"></span>
 	</div>
     <input type="hidden" name="old_taskname" value="<?php echo $taskName ?>">
 	  <input type="Submit" name="Submit" value="Submit Changes">

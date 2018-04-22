@@ -57,14 +57,15 @@
 		mysqli_close($link);
 		?>
 		
-		<h4>Current Groups You're A Part Of:</h4>
+		<h4>Current Groups You're A Part Of (But Do Not Manage):</h4>
 
 		<?php
 		$link = connectToServer();
 
 		$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
-						FROM Groups INNER JOIN Group_Members ON gro_ID = grm_gro_ID 
-						WHERE Group_Members.grm_usr_ID ='" . $_COOKIE['current_user'] . "'";
+					FROM Groups INNER JOIN Group_Members ON gro_ID = grm_gro_ID 
+					WHERE Group_Members.grm_usr_ID ='" . $_COOKIE['current_user'] . "' AND gro_ID NOT IN (
+					SELECT gro_ID FROM Groups WHERE gro_ownerID = '" . $_COOKIE['current_user'] . "')";
 		$result = mysqli_query($link, $qry);
 
 		if(mysqli_num_rows($result) > 0) {
