@@ -38,7 +38,17 @@
       header('Location: ../home.php');
       
     } else {
-      printf("Registration unsuccessful. Has this username/email already been used?");
+      echo "<h1>Registration unsuccessful. Has this username/email already been used? <br></h1>";
+    
+      // Redirect button
+      // This is using some scrappy JavaScript embeded into my PHP code...
+      echo "<button id=\"myBtn\">Back to registration page!</button>" .
+            "<script>" .
+            "var btn = document.getElementById('myBtn');" .
+            "btn.addEventListener('click', function() {" .
+            "document.location.href = '../register.html';" .
+            "});" .
+            "</script>";
     }
   }
 

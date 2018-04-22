@@ -33,11 +33,11 @@
     
     setGryzlCookie("current_task", $tas_ID);
     
-    header('Location: ../addgrouptotask.html');
-    if (isset($_POST['Submit1'])) {
+    if ($_POST['Submit'] == "Assign Groups?") {
+      if
        header('Location: ../addgrouptotask.html');
     }
-    elseif (isset($_POST['Sumbit2'])) {
+    elseif ($_POST['Sumbit'] == "Create Task without Groups") {
       //add group  
       header('Location: ../home.php');
     }

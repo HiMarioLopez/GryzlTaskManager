@@ -26,27 +26,26 @@
 	
 		$link = connectToServer();
 
-		$qry = "SELECT * FROM Users INNER JOIN Privileges ON usr_ID = pri_usr_ID";
+		$qry = "SELECT usr_ID UserID, usr_Email Email, usr_Password Password, pri_type Privileges
+						FROM Users INNER JOIN Privileges ON usr_ID = pri_usr_ID";
 		$result = mysqli_query($link, $qry);
 
 		if(mysqli_num_rows($result) > 0) {
 			echo "<table> <tr> 
-			<th>usr_ID</th> 
-			<th>usr_Email</th> 
-			<th>usr_Password</th>
-			<th>pri_type</th>
-			<th>pri_usr_ID</th>
+			<th>UserID</th> 
+			<th>Email</th> 
+			<th>Password</th>
+			<th>Privileges</th>
 			<th>Edit User</th>
 			<th>Delete User</th>
 			</tr>";
 
 			// Output data of each row
 			while($row = mysqli_fetch_assoc($result)) {
-				echo "<tr><td>" . $row["usr_ID"] .
-				"</td><td>" . $row["usr_Email"] .
-				"</td><td>" . $row["usr_Password"] .
-				"</td><td>" . $row["pri_type"] .
-				"</td><td>" . $row["pri_usr_ID"] .
+				echo "<tr><td>" . $row["UserID"] .
+				"</td><td>" . $row["Email"] .
+				"</td><td>" . $row["Password"] .
+				"</td><td>" . $row["Privileges"] .
 				
         /* This chunk of HTML allows us to edit or delete selected entries from the database */
         "<form action=\"./php/editUser.php\" method=\"POST\">" .
@@ -54,7 +53,7 @@
           "<input type=\"submit\" name=\"action\" value=\"Edit\"/>" .
           "</td><td>" .
           "<input type=\"submit\" name=\"action\" value=\"Delete\"/>" .
-          "<input type=\"hidden\" name=\"id\" value=\"" . $row['usr_ID'] . "\"/>" .
+          "<input type=\"hidden\" name=\"id\" value=\"" . $row['UserID'] . "\"/>" .
         "</form>" .
           
 				"</td></tr>";
@@ -79,12 +78,12 @@
 
 		if(mysqli_num_rows($result) > 0) {
 			echo "<table> <tr> 
-			<th>tas_ID</th> 
-			<th>tas_Category</th> 
-			<th>tas_DueDate</th> 
-			<th>tas_Priority</th>
-			<th>tas_Progress</th>
-			<th>tas_usr_ID</th>
+			<th>TaskID</th> 
+			<th>Category</th> 
+			<th>DueDate</th> 
+			<th>Priority</th>
+			<th>Progress</th>
+			<th>OwnerID</th>
 			<th>Edit Task</th>
 			<th>Delete Task</th>
 			</tr>";

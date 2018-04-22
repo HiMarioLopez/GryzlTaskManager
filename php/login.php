@@ -51,8 +51,19 @@
         header("Location: ../home.php");
       }
     // There was an error during input authentication.
-    } else
-      printf("Login failed! Please check username and/or password.");
+    } 
+  } else {
+      echo "<h2>Login failed! Please check username and/or password.<br></h2>";
+    
+      // Redirect button
+      // This is using some scrappy JavaScript embeded into my PHP code...
+      echo "<button id=\"myBtn\">Back to login!</button>" .
+            "<script>" .
+            "var btn = document.getElementById('myBtn');" .
+            "btn.addEventListener('click', function() {" .
+            "document.location.href = '../login.html';" .
+            "});" .
+            "</script>";
   }
 
   // We make sure we always close connection and free our result sets
