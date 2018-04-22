@@ -7,10 +7,10 @@
   $groupName = strtolower($groupName);
   $groupName = sanatize($link, $groupName);
 
-  // @todo: STORED PROCEDURE
+  // @TODO: STORED PROCEDURE
   $qry = "INSERT INTO Groups VALUES ( '". $groupName . "', '". $_COOKIE["current_user"] . "', 'a');";
   if (mysqli_query($link, $qry) === TRUE) {
-    // @todo: STORED PROCEDURE
+    // @TODO: STORED PROCEDURE
     $qry = "INSERT INTO Group_Members VALUES ('" . $groupName . "', '" . $_COOKIE["current_user"] . "');";
     if(mysqli_query($link, $qry) == TRUE) {
       setGryzlCookie("currGroupName", $groupName);

@@ -11,6 +11,7 @@
 	
   <div>
       
+  <!-- Logout button with embedded JavaScript for redirection -->
   <button id="logout_button" style="position: absolute;top: 10px;right: 10px;">Logout</button>
   <script>
     var btn = document.getElementById('logout_button');
@@ -20,9 +21,11 @@
   </script>
   
 	<h2>Welcome to the home screen, <?php echo ucwords($_COOKIE['current_user']) ?>!</h2>
+	
 
 	<p>Choose what you would like to do:</p>
 
+  <!-- Allows user to make selection of the action they'd like to perform -->
 	<form action="./php/home_action.php" method="POST">
 		Add Group: <input type="radio" name="homeAction" value="addGroup"><br>
 		Add Task:  <input type="radio" name="homeAction" value="addTask"><br>
@@ -36,6 +39,7 @@
 	
 		$link = connectToServer();
 
+    // Selecting all groups the current user is the owner of
 		$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
 						FROM Groups WHERE gro_ownerID = '" . $_COOKIE['current_user'] . "'";
 		$result = mysqli_query($link, $qry);
@@ -72,6 +76,9 @@
 		<?php
 		$link = connectToServer();
 
+    // Select using join to show groups one is involved in
+    // But removing any groups they manage (since they're already
+    // shown above in the other table)
 		$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
 					FROM Groups INNER JOIN Group_Members ON gro_ID = grm_gro_ID 
 					WHERE Group_Members.grm_usr_ID ='" . $_COOKIE['current_user'] . "' AND gro_ID NOT IN (
@@ -96,6 +103,7 @@
 			}
 			echo "</table>";
 			} else {
+      // No tuples returned - show empty table
 			echo "<table> <tr><td>None!</td></tr> </table>";
 		}
 
@@ -108,12 +116,14 @@
 		<?php
 		$link = connectToServer();
 
+    // Select statement for presenting relevant user data
 		$qry = "SELECT tas_ID TaskID, tas_Category Category, tas_DueDate DueDate, tas_Priority Priority, tas_Progress Progress
 						FROM Tasks WHERE tas_usr_ID='" . $_COOKIE['current_user'] . "'";
 		$result = mysqli_query($link, $qry);
 
 		if(mysqli_num_rows($result) > 0) {
-			echo "<table id=\"taskTable\"> <tr> 
+      // Embed image to signify which tables you can sort (right now it's just alpha)
+      echo "<table id=\"taskTable\"> <tr> 
 			<th>TaskID</th> 
 			<th style=\"white-space:nowrap;\" onclick=\"sortTable(1)\">Category <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th> 
 			<th style=\"white-space:nowrap;\" onclick=\"sortTable(2)\">DueDate <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th> 
@@ -144,6 +154,7 @@
 			}
 			echo "</table>";
 			} else {
+      // No tuples returned - show empty table
 			echo "<table> <tr><td>None!</td></tr> </table>";
 		}
 
@@ -151,6 +162,7 @@
 		mysqli_close($link);
 		?>
   
+    <!-- Sorting Function -->
     <script>
     function sortTable(n) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
@@ -207,7 +219,6 @@
     }
   }
   </script>
-  
   </div>
   
 </body>

@@ -10,15 +10,15 @@
   $newuser = sanatize($link, $newuser);
   $newuser = strtolower($newuser);
 
-  $qry = "SELECT COUNT(*) FROM Users WHERE Users.usr_ID = '" . $newuser . "' 
-  GROUP BY usr_ID;";
+  $qry = "SELECT COUNT(*) FROM Users WHERE Users.usr_ID = '$newuser' GROUP BY usr_ID;";
   $result = mysqli_query($link, $qry);
 
   if ( $result == TRUE) {
     
-    // @todo: STORED PROCEDURE
+    // @TODO: STORED PROCEDURE
     $qry = "INSERT INTO Group_Members (grm_gro_ID, grm_usr_ID) 
-    VALUES ( '". $_COOKIE["currGroupName"]  . "', '". $newuser . "');";
+    VALUES ( '". $_COOKIE["currGroupName"]  . "', '$newuser');";
+    
     if (mysqli_query($link, $qry) === TRUE) {
       if ($moremems  == 'done')
         redirectHome();

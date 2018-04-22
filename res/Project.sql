@@ -9,7 +9,7 @@ CREATE TABLE Groups (
 	gro_ID VARCHAR(30), 
 	gro_ownerID  VARCHAR(20) NOT NULL,
 	gro_Status CHAR(1) NOT NULL,
-	PRIMARY KEY (gro_ID)
+	PRIMARY KEY (gro_ID, gro_ownerID)
 );
 
 CREATE TABLE Privileges(

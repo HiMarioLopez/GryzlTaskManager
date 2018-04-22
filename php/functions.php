@@ -8,6 +8,13 @@
     return $input;
   }
 
+  function sanatizeNoSpecial($link, $input) {
+    $input = mysqli_real_escape_string($link, $input);
+    $input = strip_tags($input);
+    $input = htmlentities($input);
+    return $input;
+  }
+
   function setGryzlCookie($cookie_name, $username) {
     unset($_COOKIE[$cookie_name]);
 		// We set the cookie to expire after 30 days, for some reason

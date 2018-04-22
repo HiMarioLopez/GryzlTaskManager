@@ -11,14 +11,11 @@
  */
 DROP TABLE IF EXISTS Users; 
 CREATE TABLE Users (
-usr_ID 
-VARCHAR(20) NOT NULL, 
-usr_Email 
-VARCHAR(50) NOT NULL, 
-usr_Password 
-VARCHAR(255) NOT NULL,
-PRIMARY KEY (usr_ID),
-UNIQUE(usr_Email)
+  usr_ID VARCHAR(20) NOT NULL, 
+  usr_Email VARCHAR(50) NOT NULL, 
+  usr_Password VARCHAR(255) NOT NULL,
+  PRIMARY KEY (usr_ID),
+  UNIQUE(usr_Email)
 );
 INSERT INTO `Users` VALUES ('jordan','jordan_hurt@baylor.edu', 'hurt'),
 ('maddie', 'maddie_dlt@baylor.edu', 'dlt'),
@@ -36,23 +33,18 @@ INSERT INTO `Users` VALUES ('jordan','jordan_hurt@baylor.edu', 'hurt'),
  */
 DROP TABLE IF EXISTS Groups; 
 CREATE TABLE Groups (
-gro_ID 
-VARCHAR(50) NOT NULL, 
-gro_ownerID  
-VARCHAR(20) NOT NULL,
-gro_Status 
-CHAR(2) NOT NULL,
-PRIMARY KEY (gro_ID)
+  gro_ID VARCHAR(50) NOT NULL, 
+  gro_ownerID VARCHAR(20) NOT NULL,
+  gro_Status CHAR(2) NOT NULL,
+  PRIMARY KEY (gro_ID)
 );
 INSERT INTO `Groups` VALUES ('dbproj','jordan', 'a'),
  ('bbottomneighbors','spongebob','a');
  
 DROP TABLE IF EXISTS Privileges; 
 CREATE TABLE Privileges(
-pri_type 
-CHAR(3),
-pri_usr_ID 
-VARCHAR(20)
+  pri_type CHAR(3),
+  pri_usr_ID VARCHAR(20)
 /*FOREIGN KEY (pri_usr_ID) REFERENCES Users(usr_ID)*/
 );
 INSERT INTO `Privileges` VALUES ('ad','spongebob'),
@@ -65,28 +57,20 @@ INSERT INTO `Privileges` VALUES ('ad','spongebob'),
 
 DROP TABLE IF EXISTS Tasks;
 CREATE TABLE Tasks (
-tas_ID 
-VARCHAR(100),
-tas_Category 
-CHAR(15) NOT NULL,
-tas_DueDate 
-DATETIME,
-tas_Priority 
-CHAR(2),
-tas_Progress 
-CHAR(10),
-tas_usr_ID
-VARCHAR(20),
-CONSTRAINT PK_Tasks PRIMARY KEY (tas_ID, tas_Category, tas_usr_ID)
+  tas_ID VARCHAR(100),
+  tas_Category CHAR(15) NOT NULL,
+  tas_DueDate DATETIME,
+  tas_Priority CHAR(2),
+  tas_Progress CHAR(10),
+  tas_usr_ID VARCHAR(20),
+  CONSTRAINT PK_Tasks PRIMARY KEY (tas_ID, tas_Category, tas_usr_ID)
 );
 INSERT INTO `Tasks` VALUES ('addrestrictions','school', '123', 'h', 'half', 'maddie');
 
 DROP TABLE IF EXISTS Task_Groups; 
 CREATE TABLE Task_Groups (
-tgr_tas_ID 
-VARCHAR(100),
-tgr_gro_ID 
-VARCHAR(50)
+  tgr_tas_ID VARCHAR(100),
+  tgr_gro_ID VARCHAR(50)
 /*FOREIGN KEY (tgr_tas_ID) REFERENCES Tasks(tas_ID),
 FOREIGN KEY (tgr_gro_ID) REFERENCES Groups(gro_ID)*/
 );
@@ -94,19 +78,17 @@ INSERT INTO `Task_Groups` VALUES ('addrestrictions','dbproj');
 
 DROP TABLE IF EXISTS Progress_Task; 
 CREATE TABLE Progress_Task (
-prg_tas_ID 
-VARCHAR(100),
-prg_upd8Time
-VARCHAR(20)
+  prg_tas_ID VARCHAR(100),
+  prg_upd8Time VARCHAR(20)
 /*FOREIGN KEY (prg_tas_ID) REFERENCES Tasks('tas_ID') ON DELETE CASCADE ON UPDATE CASCADE*/
 );
 
 DROP TABLE IF EXISTS Group_Members; 
 CREATE TABLE Group_Members (
-grm_gro_ID 
-VARCHAR(50),
-grm_usr_ID 
-VARCHAR(20)
+  grm_gro_ID VARCHAR(50),
+  grm_usr_ID VARCHAR(20)
+  CONSTRAINT MultipleUsers2Task UNIQUE (grm_gro_ID, grm_usr_ID);
+ 
 /*FOREIGN KEY (grm_gro_ID) REFERENCES Groups(gro_ID),
 FOREIGN KEY (grm_usr_ID) REFERENCES Users(usr_ID)*/
 );

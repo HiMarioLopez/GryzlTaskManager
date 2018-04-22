@@ -4,6 +4,6 @@ Mario Arturo Lopez
 
 Jordan Hurt
 
-Maddie De La Torre
+Maddie de la Torre
 
 CSI 3335 Spring 2018

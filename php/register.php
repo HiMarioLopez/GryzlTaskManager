@@ -8,7 +8,7 @@
   $password = $_POST["password"];
   $email = $_POST["email"];
 
-  $username = sanatize($link, $username);
+  $username = sanatizeNoSpecial($link, $username);
   $password = sanatize($link, $password);
   $email = sanatize($link, $email);
 
