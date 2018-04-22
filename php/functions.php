@@ -12,7 +12,6 @@
     unset($_COOKIE[$cookie_name]);
 		// We set the cookie to expire after 30 days, for some reason
     setcookie($cookie_name, $username, time() +  (86400 * 30), "/");
-    echo "Cookie has been set! " . $_COOKIE[$cookie_name];
   }
 
   // @todo: don't use root
@@ -41,35 +40,35 @@
 		// ALL OF THEM!!!
 		$qry = "UPDATE Users SET usr_ID = '$username' WHERE usr_ID = '$old_username'";
 		if ($link->query($qry) == TRUE)
-			echo "Users Query: " . $qry;
+			echo "Users Query: " . $qry . "<br>";
 		else
 			echo "Error updating record: " . $link->error;
 		
 		$qry = "UPDATE Privileges SET pri_usr_ID = '$username' WHERE pri_usr_ID = \"$old_username\"";
 
 		if ($link->query($qry) === TRUE)
-			echo "Privileges Query: " . $qry;
+			echo "Privileges Query: " . $qry . "<br>";
 		else
 			echo "Error updating record: " . $link->error;
 		
 		$qry = "UPDATE Group_Members SET grm_usr_ID = '$username' WHERE grm_usr_ID = \"$old_username\"";	
 				
 		if ($link->query($qry) === TRUE)
-			echo "Group_Members Query: " . $qry;
+			echo "Group_Members Query: " . $qry . "<br>";
 		else
 			echo "Error updating record: " . $link->error;
 		
-		$qry = "UPDATE Groups SET gro_owner_ID = '$username' WHERE gro_ownerID = \"$old_username\"";
+		$qry = "UPDATE Groups SET gro_ownerID = '$username' WHERE gro_ownerID = \"$old_username\"";
 		
 		if ($link->query($qry) === TRUE)
-			echo "Groups Query: " . $qry;
+			echo "Groups Query: " . $qry . "<br>";
 		else
 			echo "Error updating record: " . $link->error;
 		
 		$qry = "UPDATE Tasks SET tas_usr_ID = '$username' WHERE tas_usr_ID = \"$old_username\"";
 
 		if ($link->query($qry) === TRUE)
-			echo "Tasks Query: " . $qry;
+			echo "Tasks Query: " . $qry . "<br>";
 		else
 			echo "Error updating record: " . $link->error;
 		

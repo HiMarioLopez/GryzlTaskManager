@@ -3,22 +3,22 @@
 
   $link = connectToServer();
 
-  $newuser = $_POST["newuser"];
-  $moremems = $_POST["addmems"];
+  $group = $_POST["newGroup"];
+  $group = sanatize($group);
 
-  $qry = "SELECT COUNT(*) FROM Users WHERE Users.usr_ID = '" . $newuser . "' GROUP BY usr_ID;";
-  $result = mysqli_query($link, $qry);
-
-  if ( $result == TRUE) { 
-    // @todo: STORED PROCEDURE
-    $qry = "INSERT INTO Group_Members (grm_gro_ID, grm_usr_ID) VALUES ( '". $_COOKIE["currGroupName"]  . "', ' ". $newuser . "');";
-    if (mysqli_query($link, $qry) === TRUE) {
-      if ($moremems  == 'done')
-        redirectHome();
-      else
-        header("Location: ../addmemstogroup.php");
-    } 
-    exit();
+  // @todo: STORED PROCEDURE
+  $qry = "INSERT INTO Task_Groups (tgr_tas_ID, tgr_gro_ID) VALUES ('" . $_COOKIE["current_task"] . "', \"$group\")";
+  
+  if (mysqli_query($link, $qry) === TRUE){
+    
+    if($_POST['tonext'] == "Add another group")
+      
+       header('Location: ../addgrouptotask.php');
+    
+    else if ($_POST['tonext'] == "Add this group only")
+       redirectHome();
+    
   } else
-      echo "Error2: " . $qry . "<br>" . $link->error;
+    echo "error: YOUR SHIT BROKE";
+  exit();
 ?>

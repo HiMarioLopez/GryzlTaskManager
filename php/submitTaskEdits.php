@@ -2,6 +2,15 @@
 
   require 'functions.php';
 
+  // We don't actually submit any changes! Simple redirect.
+  if($_POST["Submit"] == "Remove Groups") {
+    header("Location: ./removeGroups.php");
+    exit();
+  } else if($_POST["Submit"] == "Add New Groups") {
+    header("Location: ../addgrouptotask.php");
+    exit();
+  }
+
   $link = connectToServer();
 
   $tas_ID = $_POST["taskname"];

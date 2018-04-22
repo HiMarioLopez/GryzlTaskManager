@@ -4,28 +4,33 @@ require 'functions.php';
 
 if ($_POST['action'] && $_POST['id']) {
 	// Editing a task!
-  if ($_POST['action'] == 'Edit') {
-    
-    $taskName = $_POST['id'];
+	$taskName = $_POST['id'];
+	$link = connectToServer();
+  if ($_POST['action'] == 'Edit') {    
     echo "<h3>You're currently editing " . $taskName . "</h3>";
     
-    $link = connectToServer();
-
     $qry = "SELECT * FROM Tasks WHERE tas_ID=\"" . $taskName . "\"";
     $result = mysqli_query($link, $qry);
-    
     $row = mysqli_fetch_assoc($result);
-
 	// Deleting a task!
   } else if($_POST['action'] == 'Delete') {
     $taskName = $_POST['id'];
     
-    /* @TODO: Delete task here */
-    /* Call stored procedure */
+    // @TODO: Stored Procedure
+		// Transaction: Delete from 4 tables.
+    $qry = "DELETE FROM Tasks WHERE tas_ID='$taskName'";
+		$link->query($qry);
     
-    
-    exit();
-    
+		$qry = "DELETE FROM Task_Groups WHERE tgr_tas_ID='$taskName'";
+		$link->query($qry);
+		
+		$qry = "DELETE FROM Task_Owners WHERE tow_tas_ID='$taskName'";
+		$link->query($qry);
+		
+		$qry = "DELETE FROM Progress_Task WHERE prg_tas_ID='$taskName'";
+		$link->query($qry);
+		
+    redirectHome();
   }
 }
 
@@ -35,7 +40,7 @@ if ($_POST['action'] && $_POST['id']) {
 <html>
 <head>
 	<title>Create Task</title>
-	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 </head>
 <body>
@@ -73,9 +78,9 @@ if ($_POST['action'] && $_POST['id']) {
 	    <span class="validity"></span> <br> <br>
 	</div>
     <input type="hidden" name="old_taskname" value="<?php echo $taskName ?>">
-	  <input type="Submit" name="submitChanges" value="Submit Changes">
-	  <input type="Submit" name="removeGroups" value="Remove Groups">
-	  <input type="Submit" name="addGroups" value="Add New Groups">
+	  <input type="Submit" name="Submit" value="Submit Changes">
+	  <input type="Submit" name="Submit" value="Remove Groups">
+	  <input type="Submit" name="Submit" value="Add New Groups">
 	</form>
 
 </body>
