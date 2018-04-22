@@ -15,16 +15,15 @@
         
         $value = $_POST[$fieldname];
         
-        if($_POST[$fieldname] != "usr_Password")
-          $value = strtolower($value);
-        if($_POST[$fieldname] == "usr_ID") {
+        if($fieldname != "pri_type")
           $value = sanatize($value);
+        if($fieldname != "usr_Password")
+          $value = strtolower($value);
+        if($fieldname == "usr_ID") {
           // We don't want to attempt to inner join on fifty tables
           // So I just made a function that updates the additional tables
           addUserToOtherTables($value, $old_username);
-        }
         
-        $fieldname = sanatize($link, $fieldname);
         $qry .= "$fieldname = '$value', ";
       }
     }
@@ -40,7 +39,7 @@
   if ($link->query($qry) === TRUE)
     redirectHome();
   else
-      echo "Error updating record: " . $link->error;
+    echo "Error updating record: " . $link->error;
 
   mysqli_close($link);
   exit();
