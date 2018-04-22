@@ -34,7 +34,7 @@ if ($_POST['action'] && $_POST['id']) {
 <html>
 <head>
 	<title>Edit User</title>
-	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 </head>
 <body>

@@ -18,9 +18,10 @@
         if($_POST[$fieldname] != "usr_Password")
           $value = strtolower($value);
         if($_POST[$fieldname] == "usr_ID") {
+          $value = sanatize($value);
           // We don't want to attempt to inner join on fifty tables
           // So I just made a function that updates the additional tables
-          addUserToOtherTables($link, sanatize($value), $old_username);
+          addUserToOtherTables($value, $old_username);
         }
         
         $fieldname = sanatize($link, $fieldname);
@@ -33,15 +34,13 @@
   $qry = rtrim($qry);
   $qry = rtrim($qry, ",");
 
-  $qry = "UPDATE Users INNER JOIN Privileges ON usr_ID=pri_usr_ID SET $qry WHERE usr_ID = \"$old_username\"";
+  $qry = "UPDATE Users INNER JOIN Privileges ON usr_ID = pri_usr_ID SET $qry 
+          WHERE usr_ID = \"$old_username\"";
 
-
-
-  if ($link->query($qry) === TRUE) {
+  if ($link->query($qry) === TRUE)
     redirectHome();
-  } else {
+  else
       echo "Error updating record: " . $link->error;
-  }
 
   mysqli_close($link);
   exit();

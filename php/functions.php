@@ -34,37 +34,49 @@
       exit();
 	}
 
-	function addUserToOtherTables($link, $username, $old_username) {
+	function addUserToOtherTables($username, $old_username) {
+		$link = connectToServer();
+		
 		// @TODO: STORED PROCEDURES
-		
-		$qry = "UPDATE Group_Members SET grm_usr_ID='$username' WHERE grm_usr_ID='$old_username'";		
+		$qry = "UPDATE Group_Members SET grm_usr_ID='$username' 
+						WHERE grm_usr_ID=\"$old_username\"";	
+		echo "Group_Members Query: " . $qry;
 		if ($link->query($qry) === TRUE) {
 			redirectHome();
 		} else {
 				echo "Error updating record: " . $link->error;
 		}
 		
-		$qry = "UPDATE Groups SET gro_ID='$username' WHERE gro_ownerID='$old_username'";
+		$qry = "UPDATE Groups SET gro_owner_ID = '$username' 
+						WHERE gro_ownerID=\"$old_username\"";
+		echo "Groups Query: " . $qry;
 		if ($link->query($qry) === TRUE) {
 			redirectHome();
 		} else {
 				echo "Error updating record: " . $link->error;
 		}
 		
-		$qry = "UPDATE Tasks SET tas_usr_ID='$username' WHERE tas_usr_ID='$old_username'";
+		$qry = "UPDATE Tasks SET tas_usr_ID='$username' 
+						WHERE tas_usr_ID=\"$old_username\"";
+		echo "Tasks Query: " . $qry;
+
 		if ($link->query($qry) === TRUE) {
 			redirectHome();
 		} else {
 				echo "Error updating record: " . $link->error;
 		}
 		
-		$qry = "UPDATE Privileges SET pri_usr_ID='$username' WHERE pri_usr_ID='$old_username'";
+		$qry = "UPDATE Privileges SET pri_usr_ID='$username' 
+						WHERE pri_usr_ID=\"$old_username\"";
+		echo "Privileges Query: " . $qry;
+
 		if ($link->query($qry) === TRUE) {
 			redirectHome();
 		} else {
 				echo "Error updating record: " . $link->error;
 		}
 		
+		mysqli_close($link);
 		// Are we even using Task_Owners anymore? Who knows...
 	}
 
