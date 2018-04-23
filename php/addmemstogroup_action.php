@@ -2,44 +2,56 @@
 
   require 'functions.php';
 
-  $link = connectToServer();
+  $db = connectToServer();
 
   $newuser = $_POST["newuser"];
   $moremems= $_POST["addmems"];
 
-  $newuser = sanatize($link, $newuser);
+  $newuser = sanatize($db, $newuser);
   $newuser = strtolower($newuser);
 
-  $qry = "CALL doesUserExist('". $newuser . "');";
-  $qry .= "CALL addMems2Group ('" . $_COOKIE["currGroupName"] . "', '" . $newuser . "')";
+  // 1st Query
+  $result = $db->query("CALL doesUserExist('$newuser')");
 
-  if(mysqli_multi_query($link, $qry)) {
-    if($result = mysqli_use_result($link)) {
-      $row = mysqli_fetch_row($result);
-      if($row[0] == 1) {
-        if ($moremems  == 'done')
-          redirectHome(); 
-        else
-          header("Location: ../addmemstogroup.php");    
-      } else {
-        
-        $qry = "CALL deleteMemFromGroup('".$newuser."')";
-        mysqli_query($link, $qry);
-        
-        echo "<h1>User not found! </h1><br>";
+  if($result){
+       // Cycle through results
+      while ($row = $result->fetch_array()){
+          
+          if($row[0] == 0) {
+            // If user doesn't exist send them to this error page
+            echo "<h1>User not found! </h1><br>";
 
-        // Redirect button
-        // This is using some scrappy JavaScript embeded into my PHP code...
-        echo "<button id=\"myBtn\">Back to add member page!</button>" .
-              "<script>" .
-              "var btn = document.getElementById('myBtn');" .
-              "btn.addEventListener('click', function() {" .
-              "document.location.href = '../addmemstogroup.php';" .
-              "});" .
-              "</script>";
+            // Redirect button
+            // This is using some scrappy JavaScript embeded into my PHP code...
+            echo "<button id=\"myBtn\">Back to add member page!</button>" .
+                  "<script>" .
+                    "var btn = document.getElementById('myBtn');" .
+                    "btn.addEventListener('click', function() {" .
+                    "document.location.href = '../addmemstogroup.php';" .
+                    "});" .
+                  "</script>";
+            exit();
+          }
       }
-    }
-  }
-  mysqli_close($link);
+      // Free result set
+      $result->close();
+      $db->next_result();
+  } else echo($db->error);
+
+  // 2nd Query
+  $result = $db->query("CALL addMems2Group ('" . $_COOKIE["currGroupName"] . "', '$newuser')");
+  if($result){
+
+    if ($moremems  == 'done')
+      redirectHome();
+    else
+      header("Location: ../addmemstogroup.php");
+    
+   // Free result set
+   $result->close();
+   $db->next_result();
+  } else echo($db->error);
+
+  mysqli_close($db);
 
 ?>
