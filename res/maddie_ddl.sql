@@ -36,7 +36,7 @@ CREATE TABLE Groups (
   gro_ID VARCHAR(50) NOT NULL, 
   gro_ownerID VARCHAR(20) NOT NULL,
   gro_Status CHAR(2) NOT NULL,
-  PRIMARY KEY (gro_ID)
+  PRIMARY KEY (gro_ID, gro_ownerID)
 );
 INSERT INTO `Groups` VALUES ('dbproj','jordan', 'a'),
  ('bbottomneighbors','spongebob','a');
@@ -70,11 +70,13 @@ INSERT INTO `Tasks` VALUES ('addrestrictions','school', '123', 'h', 'half', 'mad
 DROP TABLE IF EXISTS Task_Groups; 
 CREATE TABLE Task_Groups (
   tgr_tas_ID VARCHAR(100),
+  tgr_tas_Category CHAR(15),
+  tas_usr_ID VARCHAR(20),
   tgr_gro_ID VARCHAR(50)
 /*FOREIGN KEY (tgr_tas_ID) REFERENCES Tasks(tas_ID),
 FOREIGN KEY (tgr_gro_ID) REFERENCES Groups(gro_ID)*/
 );
-INSERT INTO `Task_Groups` VALUES ('addrestrictions','dbproj');
+INSERT INTO `Task_Groups` VALUES ('addrestrictions','school', 'maddie', 'dbproj' );
 
 DROP TABLE IF EXISTS Progress_Task; 
 CREATE TABLE Progress_Task (
@@ -86,8 +88,8 @@ CREATE TABLE Progress_Task (
 DROP TABLE IF EXISTS Group_Members; 
 CREATE TABLE Group_Members (
   grm_gro_ID VARCHAR(50),
-  grm_usr_ID VARCHAR(20)
-  CONSTRAINT MultipleUsers2Task UNIQUE (grm_gro_ID, grm_usr_ID);
+  grm_usr_ID VARCHAR(20), 
+  CONSTRAINT MultipleUsers2Task UNIQUE (grm_gro_ID, grm_usr_ID)
  
 /*FOREIGN KEY (grm_gro_ID) REFERENCES Groups(gro_ID),
 FOREIGN KEY (grm_usr_ID) REFERENCES Users(usr_ID)*/

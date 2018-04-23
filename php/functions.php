@@ -23,7 +23,7 @@
 
   // @todo: don't use root
   function connectToServer() {
-    $link = mysqli_connect("localhost","root", "", "Gryzl");
+    $link = mysqli_connect("localhost","webAccess", "jordan", "Gryzl");
     
     if (mysqli_connect_errno()) {
 			printf("Connect failed: %s\n", mysqli_connect_error());

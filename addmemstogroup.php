@@ -13,7 +13,7 @@
   <h2>Add Group members</h2>
 
   <form action="./php/addmemstogroup_action.php" method="post">
-    <p>User to add: <input type="text" name="newuser" maxlength="20"><br></p>
+    <p>User to add: <input type="text" name="newuser" maxlength="20" required><br></p>
     <p>Would you like to add more group members? <br></p>
     <input type="radio" name="addmems" value="add"> Yes!<br>
     <input type="radio" name="addmems" value="done"> No!<br>

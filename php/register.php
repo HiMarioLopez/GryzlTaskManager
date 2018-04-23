@@ -18,9 +18,9 @@
   $email = strtolower($email);
 
   if (isset($username)){
-    $usr_qry = "INSERT INTO Users (usr_ID, usr_Email, usr_Password) 
-                VALUES ( '" . $username . "' , '" . $email . "' , '" . $password_hash . "');";
-    $pri_qry = "INSERT INTO Privileges VALUES ('pb', '" . $username . "');";
+    
+    $usr_qry = "CALL adduser('". $username . "', '" . $email . "', '" . $password_hash."')";
+    $pri_qry = "CALL assignprivileges('" . $username . "')";
     
     if (mysqli_query($link, $usr_qry) && mysqli_query($link, $pri_qry)) {
       
