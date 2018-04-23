@@ -43,9 +43,8 @@ INSERT INTO `Groups` VALUES ('dbproj','jordan', 'a'),
  
 DROP TABLE IF EXISTS Privileges; 
 CREATE TABLE Privileges(
-  pri_type CHAR(3),
+  pri_type VARCHAR(3),
   pri_usr_ID VARCHAR(20)
-/*FOREIGN KEY (pri_usr_ID) REFERENCES Users(usr_ID)*/
 );
 INSERT INTO `Privileges` VALUES ('ad','spongebob'),
 ('ad', 'jordan'),
@@ -81,6 +80,8 @@ INSERT INTO `Task_Groups` VALUES ('addrestrictions','school', 'maddie', 'dbproj'
 DROP TABLE IF EXISTS Progress_Task; 
 CREATE TABLE Progress_Task (
   prg_tas_ID VARCHAR(100),
+  prg_usr_ID VARCHAR(20),
+  prg_tas_cat VARCHAR(15),
   prg_upd8Time VARCHAR(20)
 /*FOREIGN KEY (prg_tas_ID) REFERENCES Tasks('tas_ID') ON DELETE CASCADE ON UPDATE CASCADE*/
 );

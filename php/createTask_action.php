@@ -16,10 +16,8 @@
   $date = date('m/d/Y h:i:s a', time());  
 
   // @todo: STORED PROCEDURE
-  $taskqry = "INSERT INTO Tasks VALUES ( '$tas_ID', '$tas_Category', '$tas_DueDate', '$tas_Priority', '$tas_Progress', '" . $_COOKIE['current_user'] . "')";
-  $ownerqry = "INSERT INTO Task_Owners VALUES ( '$tas_ID', '" . $_COOKIE["current_user"] ."')";
-  $progqry = "INSERT INTO Progress_Task VALUES ('$tas_ID', '$date')";
-  
+  $taskqry = "CALL createTask( '$tas_ID', '$tas_Category', '$tas_DueDate', '$tas_Priority', '$tas_Progress', '" . $_COOKIE['current_user'] . "')";
+  $progqry = "CALL createProgTask ('$tas_ID', '$date')";
 
   if (mysqli_query($link, $taskqry) === TRUE) {
     $link->query($ownerqry);

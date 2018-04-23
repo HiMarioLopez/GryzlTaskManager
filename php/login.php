@@ -10,13 +10,13 @@
   $password = sanatize($link, $password);
   $username = strtolower($username);
 
-  $query = "SELECT * 
-            FROM Users INNER JOIN Privileges 
-            ON usr_ID = pri_usr_ID 
-            WHERE usr_ID = '$username'";
+  $query = "CALL userLoginandExist('" . $username . "')";
 
   $result = mysqli_query($link, $query);
+
+  //it is breaking here - jordan
   $row = $result->fetch_assoc();
+  
 
   if(password_verify($password, $row["usr_Password"])) {
         
@@ -30,19 +30,19 @@
     else
       header("Location: ../home.php");
 
-  } else {
-      echo "<h2>Login failed! Please check username and/or password.<br></h2>";
-    
-      // Redirect button
-      // This is using some scrappy JavaScript embeded into my PHP code...
-      echo "<button id=\"myBtn\">Back to login!</button>" .
-            "<script>" .
-            "var btn = document.getElementById('myBtn');" .
-            "btn.addEventListener('click', function() {" .
-            "document.location.href = '../login.html';" .
-            "});" .
-            "</script>";
-  }
+    } else {
+        echo "<h2>Login failed! Please check username and/or password.<br></h2>";
+
+        // Redirect button
+        // This is using some scrappy JavaScript embeded into my PHP code...
+        echo "<button id=\"myBtn\">Back to login!</button>" .
+              "<script>" .
+              "var btn = document.getElementById('myBtn');" .
+              "btn.addEventListener('click', function() {" .
+              "document.location.href = '../login.html';" .
+              "});" .
+              "</script>";
+    }
 
   // We make sure we always close connection and free our result sets
   mysqli_free_result($result);

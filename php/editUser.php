@@ -10,7 +10,7 @@ if ($_POST['action'] && $_POST['id']) {
     
     $link = connectToServer();
 
-    $qry = "SELECT * FROM Users INNER JOIN Privileges ON usr_ID = pri_usr_ID WHERE usr_ID='" . $userName . "'";
+    $qry = "CALL UserLoginandExist( '" . $userName . "')";
     $result = mysqli_query($link, $qry);
     
     $row = mysqli_fetch_assoc($result);

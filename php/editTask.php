@@ -5,11 +5,14 @@ require 'functions.php';
 if ($_POST['action'] && $_POST['id']) {
 	// Editing a task!
 	$taskName = $_POST['id'];
+  $category = $_POST['cat'];
+  $username = $_POST['uname'];
+  
 	$link = connectToServer();
   if ($_POST['action'] == 'Edit') {    
     echo "<h3>You're currently editing " . $taskName . "</h3>";
     
-    $qry = "SELECT * FROM Tasks WHERE tas_ID=\"" . $taskName . "\"";
+    $qry = "CALL taskExist( \"". $taskName ."\",'" . $username ."', '" . $category . "' )";
     $result = mysqli_query($link, $qry);
     $row = mysqli_fetch_assoc($result);
 	// Deleting a task!
@@ -17,17 +20,14 @@ if ($_POST['action'] && $_POST['id']) {
     $taskName = $_POST['id'];
     
     // @TODO: Stored Procedure
-		// Transaction: Delete from 4 tables.
-    $qry = "DELETE FROM Tasks WHERE tas_ID='$taskName'";
+		// Transaction: Delete from 3 tables.
+    $qry = "CALL deleteTaskFromTasks ( '" . $taskName . "', '" . $username ."', '" . $category . "')";
 		$link->query($qry);
     
-		$qry = "DELETE FROM Task_Groups WHERE tgr_tas_ID='$taskName'";
+		$qry = "CALL deleteTaskFromTaskGroup ( ' " . $taskName . " ' , '" . $username ."', '" . $category . "')";
 		$link->query($qry);
 		
-		$qry = "DELETE FROM Task_Owners WHERE tow_tas_ID='$taskName'";
-		$link->query($qry);
-		
-		$qry = "DELETE FROM Progress_Task WHERE prg_tas_ID='$taskName'";
+		$qry = "CALL deleteTaskfromProgressTask ( ' " . $taskName . " ' , '" . $username ."', '" . $category . "')";
 		$link->query($qry);
 		
     redirectHome();

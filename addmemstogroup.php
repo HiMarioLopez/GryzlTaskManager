@@ -19,16 +19,20 @@
     <input type="radio" name="addmems" value="done"> No!<br>
     <input type="submit">
   </form>
-
-  <h3>Available Users:</h3>
   
+  <h3>Users Already In Group:</h3>
+  
+  <!-- Display a table of all users in the database that are not  -->
+  <!-- currently already in the group -->
   <?php
 		include_once './php/functions.php';
 	
 		$link = connectToServer();
 
-		$qry = "SELECT usr_ID Name FROM Users";
-		$result = mysqli_query($link, $qry);
+		$qry = "SELECT grm_usr_ID Name FROM Group_Members 
+            WHERE grm_gro_ID = '".$_COOKIE["currGroupName"]."'
+            AND grm_usr_ID != '".$_COOKIE["current_user"]."'";
+    $result = mysqli_query($link, $qry);
 
 		if(mysqli_num_rows($result) > 0) {
 			echo "<table> <tr> 
@@ -45,10 +49,42 @@
 			echo "<table> <tr><td>None!</td></tr> </table>";
 		}
 
-		mysqli_free_result($result);
-		mysqli_close($link);
+  mysqli_close($link);
 	?>
+
+  <h3>Available Users:</h3>
   
+  <!-- Display a table of all users in the database that are not  -->
+  <!-- currently already in the group -->
+  <?php
+		include_once './php/functions.php';
+	
+		$link = connectToServer();
+
+		$qry = "SELECT usr_ID Name FROM Users WHERE usr_ID NOT IN 
+            (SELECT grm_usr_ID FROM Group_Members 
+            WHERE grm_gro_ID='".$_COOKIE["currGroupName"]."')";
+
+    $result = mysqli_query($link, $qry);
+
+		if(mysqli_num_rows($result) > 0) {
+			echo "<table> <tr> 
+			<th>Name</th>
+			</tr>";
+
+			// Output data of each row
+			while($row = mysqli_fetch_assoc($result)) {
+				echo "</td><td>" . ucwords($row["Name"]) .
+				"</td></tr>";
+			}
+			echo "</table>";
+			} else {
+			echo "<table> <tr><td>None!</td></tr> </table>";
+		}
+
+  mysqli_close($link);
+	?>
+    
 </body>
 
 </html>
