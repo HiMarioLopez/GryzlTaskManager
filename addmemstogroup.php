@@ -6,6 +6,12 @@
   <link rel="stylesheet" type="text/css" href="./css/style.css">
   <link rel="stylesheet" type="text/css" href="./css/tablestyles.css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+  <div align="right">
+    <form action="./php/addmemstogroup_action.php" method="post">
+      <input type="submit" name="actions" value="Home"></input>
+      <input type="submit" name="actions" value="Logout"></input>
+    </form>
+  </div>
 </head>
 
 <body>
