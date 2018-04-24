@@ -10,7 +10,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 </head>
 <body>
-	
+
   <!-- Navbar with Logout button -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Navbar</a>
@@ -64,115 +64,116 @@
   
   <div class="jumbotron">
     <h1 class="display-4">Welcome to the home screen, <?php echo ucwords($_COOKIE['current_user']) ?>!</h1>
-    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+    <p class="lead">Easily access all the information you'll ever need.</p>
     <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    <p>What would you like to do?</p>
     <p class="lead">
-      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+      <form action="./php/home_action.php" method="POST">
+        Add Group: <input type="radio" name="homeAction" value="addGroup"><br>
+        Add Task:  <input type="radio" name="homeAction" value="addTask"><br>
+        <input type="submit">
+      </form>
     </p>
-  </div>
 
-	<p>Choose what you would like to do:</p>
-
-  <!-- Allows user to make selection of the action they'd like to perform -->
-	<form action="./php/home_action.php" method="POST">
-		Add Group: <input type="radio" name="homeAction" value="addGroup"><br>
-		Add Task:  <input type="radio" name="homeAction" value="addTask"><br>
-		<input type="submit">
-	</form>
 	
-		<h4>Current Groups You Manage:</h4>
-		
-		<?php
-		require './php/functions.php';
-	
-		$link = connectToServer();
+	<br>Current Groups You Manage:
 
-    // Selecting all groups the current user is the owner of
-		$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
-						FROM Groups WHERE gro_ownerID = '" . $_COOKIE['current_user'] . "'";
-		$result = mysqli_query($link, $qry);
+	<?php
+	require './php/functions.php';
 
-		if(mysqli_num_rows($result) > 0) {
-			echo "<table> <tr> 
-			<th>GroupID</th> 
-			<th>OwnerID</th> 
-			<th>Status</th>       
-			<th>Edit Group</th> 
-			<th>Delete Group</th> 
-			</tr>";
+	$link = connectToServer();
 
-			// Output data of each row
-			while($row = mysqli_fetch_assoc($result)) {
-				echo "<tr><td>" . $row["GroupID"] .
-				"</td><td>" . $row["OwnerID"] .
-				"</td><td>" . $row["Status"] .
-				"</td><td> <input type=\"Submit\" name=\"".$row["GroupID"] . "\" value=\"Edit\">" .
-				"</td><td> <input type=\"Submit\" name=\"Submit\" value=\"Delete\">"  .
-				"</td></tr>";
-			}
-			echo "</table>";
-			} else {
-			echo "<table> <tr><td>None!</td></tr> </table>";
+	$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
+					FROM Groups WHERE gro_ownerID = '" . $_COOKIE['current_user'] . "'";
+	$result = mysqli_query($link, $qry);
+
+	if(mysqli_num_rows($result) > 0) {
+		echo "<table> <tr> 
+		<th>GroupID</th> 
+		<th>OwnerID</th> 
+		<th>Status</th>       
+		<th>Edit Group</th> 
+		<th>Delete Group</th> 
+		</tr>";
+
+		// Output data of each row
+		while($row = mysqli_fetch_assoc($result)) {
+			echo "<tr><td>" . $row["GroupID"] .
+			"</td><td>" . $row["OwnerID"] .
+			"</td><td>" . $row["Status"] .
+      
+      // This chunk of HTML allows us to edit or delete selected entries from the database
+      "<form action=\"./php/editGroup.php\" method=\"POST\">" .
+        "</td><td>" .
+        "<input type=\"submit\" name=\"action\" value=\"Edit\"/>" .
+        "</td><td>" .
+        "<input type=\"submit\" name=\"action\" value=\"Delete\"/>" .
+        "<input type=\"hidden\" name=\"id\" value=\"" . $row['GroupID'] . "\"/>" .
+      "</form>" .
+        
+      "</td></tr>";
 		}
+		echo "</table>";
+		} else {
+		echo "<table> <tr><td>None!</td></tr> </table>";
+	}
 
-		mysqli_free_result($result);
-		mysqli_close($link);
-		?>
-		
-		<h4>Current Groups You're A Part Of (But Do Not Manage):</h4>
+	mysqli_free_result($result);
+	mysqli_close($link);
+	?>
 
-		<?php
-		$link = connectToServer();
+	<br>Current Groups You're A Part Of (But Do Not Manage):
 
-    // Select using join to show groups one is involved in
-    // But removing any groups they manage (since they're already
-    // shown above in the other table)
-		$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
+	<?php
+	$link = connectToServer();
+
+	$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
 					FROM Groups INNER JOIN Group_Members ON gro_ID = grm_gro_ID 
 					WHERE Group_Members.grm_usr_ID ='" . $_COOKIE['current_user'] . "' AND gro_ID NOT IN (
 					SELECT gro_ID FROM Groups WHERE gro_ownerID = '" . $_COOKIE['current_user'] . "')";
-		$result = mysqli_query($link, $qry);
+	$result = mysqli_query($link, $qry);
 
-		if(mysqli_num_rows($result) > 0) {
-			echo "<table> <tr>
-			<th>GroupID</th>
-			<th>OwnerID</th>
-			<th>Status</th>
-			<th>Leave Group</th>
-			</tr>";
+	if(mysqli_num_rows($result) > 0) {
+		echo "<table> <tr>
+		<th>GroupID</th>
+		<th>OwnerID</th>
+		<th>Status</th>
+		<th>Leave Group</th>
+		</tr>";
 
-			// Output data of each row
-			while($row = mysqli_fetch_assoc($result)) {
-				echo "<tr><td>" . $row["GroupID"] .
-				"</td><td>" . $row["OwnerID"] .
-				"</td><td>" . $row["Status"] .
-				"</td><td> <input type=\"Submit\" name=\"Submit\" value=\"Leave\">"  .
-				"</td></tr>";
-			}
-			echo "</table>";
-			} else {
-      // No tuples returned - show empty table
-			echo "<table> <tr><td>None!</td></tr> </table>";
+		// Output data of each row
+		while($row = mysqli_fetch_assoc($result)) {
+			echo "<tr><td>" . $row["GroupID"] .
+			"</td><td>" . $row["OwnerID"] .
+			"</td><td>" . $row["Status"] .
+
+      // This chunk of HTML allows us to edit or delete selected entries from the database
+      "<form action=\"./php/leaveGroup.php\" method=\"POST\">" .
+        "</td><td>" .
+        "<input type=\"submit\" name=\"action\" value=\"Leave\"/></td>" .
+        "<input type=\"hidden\" name=\"id\" value=\"" . $row['GroupID'] . "\"/>" .
+      "</form></tr>";
 		}
+		echo "</table>";
+		} else {
+		echo "<table> <tr><td>None!</td></tr> </table>";
+	}
 
-		mysqli_free_result($result);
-		mysqli_close($link);
-		?>
-
-		 <h4>Your Current Tasks:</h4>
+	mysqli_free_result($result);
+	mysqli_close($link);
+	?>
+	
+  	<br>Your Current Tasks:
 
 		<?php
 		$link = connectToServer();
 
-    // Select statement for presenting relevant user data
 		$qry = "SELECT tas_ID TaskID, tas_Category Category, tas_DueDate DueDate, tas_Priority Priority, tas_Progress Progress
 						FROM Tasks WHERE tas_usr_ID='" . $_COOKIE['current_user'] . "'";
 		$result = mysqli_query($link, $qry);
 
 		if(mysqli_num_rows($result) > 0) {
-      // Embed image to signify which tables you can sort (right now it's just alpha)
-      echo "<table id=\"taskTable\"> <tr> 
+			echo "<table id=\"taskTable\"> <tr> 
 			<th>TaskID</th> 
 			<th style=\"white-space:nowrap;\" onclick=\"sortTable(1)\">Category <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th> 
 			<th style=\"white-space:nowrap;\" onclick=\"sortTable(2)\">DueDate <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th> 
@@ -198,13 +199,13 @@
           "<input type=\"submit\" name=\"action\" value=\"Delete\"/>" .
           "<input type=\"hidden\" name=\"id\" value=\"" . $row['TaskID'] . "\"/>" .
           "<input type=\"hidden\" name=\"cat\" value=\"" . $row['Category'] . "\"/>" .
+          "<input type=\"hidden\" name=\"uname\" value=\"" . $_COOKIE["current_user"] . "\"/>" .
         "</form>" .
           
 				"</td></tr>";
 			}
 			echo "</table>";
 			} else {
-      // No tuples returned - show empty table
 			echo "<table> <tr><td>None!</td></tr> </table>";
 		}
 
@@ -212,15 +213,14 @@
 		mysqli_close($link);
 		?>
   
-    <br>Your Group Tasks:
+  	<br>Your Group Tasks:
 
 		<?php
 		$link = connectToServer();
 
     // Select statement for presenting relevant user data
-		$qry = "select tas_ID, tas_Category, tas_DueDate, tas_Priority, tas_Progress, gro_ID from Users
-    INNER JOIN Tasks ON usr_ID=tas_usr_ID INNER JOIN Task_Groups ON tas_ID=tgr_tas_ID INNER JOIN Groups ON gro_ID=tgr_gro_ID 
-    WHERE usr_ID='" . $_COOKIE['current_user'] . "'";
+		$qry = "SELECT * FROM Group_Members INNER JOIN Groups ON grm_gro_ID=gro_ID INNER JOIN Task_Groups ON grm_gro_ID=tgr_gro_ID INNER JOIN Tasks ON tgr_tas_ID=tas_ID
+    WHERE grm_usr_ID='" . $_COOKIE['current_user'] . "'";
   
 		$result = mysqli_query($link, $qry);
 
@@ -268,7 +268,6 @@
 		mysqli_close($link);
 		?>
   
-    <!-- Sorting Function -->
     <script>
     function sortTable(n) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
@@ -326,10 +325,10 @@
   }
   </script>
   </div>
-  
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  
+ 
 </body>
 </html>

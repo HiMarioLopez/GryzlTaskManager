@@ -219,9 +219,8 @@
 		$link = connectToServer();
 
     // Select statement for presenting relevant user data
-		$qry = "select tas_ID, tas_Category, tas_DueDate, tas_Priority, tas_Progress, gro_ID from Users
-    INNER JOIN Tasks ON usr_ID=tas_usr_ID INNER JOIN Task_Groups ON tas_ID=tgr_tas_ID INNER JOIN Groups ON gro_ID=tgr_gro_ID 
-    WHERE usr_ID='" . $_COOKIE['current_user'] . "'";
+		$qry = "SELECT * FROM Group_Members INNER JOIN Groups ON grm_gro_ID=gro_ID INNER JOIN Task_Groups ON grm_gro_ID=tgr_gro_ID INNER JOIN Tasks ON tgr_tas_ID=tas_ID
+    WHERE grm_usr_ID='" . $_COOKIE['current_user'] . "'";
   
 		$result = mysqli_query($link, $qry);
 
@@ -268,6 +267,7 @@
 		mysqli_free_result($result);
 		mysqli_close($link);
 		?>
+  
   
     <script>
     function sortTable(n) {

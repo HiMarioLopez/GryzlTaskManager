@@ -2,27 +2,53 @@
 <html>
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>User Login</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="./css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 </head>
 
 <body>
-  <p>Please enter your username and password!</p>
-  <form action="./php/login.php" method="post">
-    Username:<input type="text" name="username" maxlength="20" required><br> Password:
-    <input type="password" name="password" maxlength="20" required><br>
-    <input type="submit">
-  </form>
 
-  <br> Don't have an account? <br>
-  <button id="myBtn">Register</button>
-  <script>
-    var btn = document.getElementById('myBtn');
-    btn.addEventListener('click', function() {
-      document.location.href = './register.html';
-    });
-  </script>
+  <div class="container">
+    <div class="d-flex p-4">
+      <div class="card mx-auto my-auto bg-dark text-light">
+        <div class="card-body">
+          <h4 class="card-title">Please enter your username and password!test</h4>
+          <div class="form-group">
+            <form action="./php/login.php" method="post">
+              <label for="name">Username:</label>
+              <input id="name" class="form-control" type="text" name="username" maxlength="20" required><br>
+              <label for="pwd">Password:</label>
+              <input id="pwd" class="form-control" type="password" name="password" maxlength="20" required><br>
+              <input class="btn" type="submit">
+            </form>
+            <br> Don't have an account? <br>
+            <button class="btn" id="myBtn">Register</button>
+          </div>
+          <!-- Form Group -->
+        </div>
+        <!-- Card Body -->
+      </div>
+      <!-- Card -->
+    </div>
+    <!-- Flex Box -->
+  </div>
+  <!-- Container -->
+
 </body>
+
+<script>
+  var btn = document.getElementById('myBtn');
+  btn.addEventListener('click', function() {
+    document.location.href = './register.html';
+  });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </html>

@@ -2,29 +2,55 @@
 <html>
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>User Registration</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="./css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 </head>
 
 <body>
-  <p>Please enter email, username, and password:</p>
-  <form action="./php/register.php" method="POST">
-    <p>Email: <input type="email" name="email" maxlength="50" required><br></p>
-    <p>Username:<input type="text" name="username" maxlength="20" pattern="[a-zA-Z][a-zA-Z0-9]+" 
-                       title="User names cannot contain special characters!" required><br></p>
-    <p>Password:<input type="password" name="password" maxlength="20" required><br></p>
-    <input type="submit">
-  </form>
-  
-  <br> Already have an account? <br>
-  <button id="login">Go to Login</button>
-  <script>
-    var btn = document.getElementById('login');
-    btn.addEventListener('click', function() {
-      document.location.href = './login.html';
-    });
-  </script>
+
+  <div class="container">
+    <div class="d-flex p-4">
+      <div class="card mx-auto my-auto bg-dark text-light">
+        <div class="card-body">
+          <h4 class="card-title">Please enter email, username, and password:</h4>
+          <div class="form-group">
+            <form class="form-group" action="./php/register.php" method="POST">
+              <label for="email">Email:</label> 
+              <input id="email" class="form-control" type="email" name="email" maxlength="50" required><br></p>
+              <label for="uname">Username:</label>
+              <input id="uname" class="form-control" type="text" name="username" maxlength="20" pattern="[a-zA-Z][a-zA-Z0-9]+" title="User names cannot contain special characters!" required><br></p>
+              <label for="pwd">Password:</label>
+              <input id="pwd" class="form-control" type="password" name="password" maxlength="20" required><br></p>
+              <input class="btn" type="submit">
+            </form>
+            <h5>Already have an account?</h5>
+            <button class="btn" id="login">Go to Login</button>
+          </div>
+          <!-- Form Group -->
+        </div>
+        <!-- Card Body -->
+      </div>
+      <!-- Card -->
+    </div>
+    <!-- Flex Box -->
+  </div>
+  <!-- Container -->
+
 </body>
+
+<script>
+  var btn = document.getElementById('login');
+  btn.addEventListener('click', function() {
+    document.location.href = './login.html';
+  });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </html>
