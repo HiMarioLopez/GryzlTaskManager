@@ -15,7 +15,6 @@
   $tas_DueDate = date('Y-m-d H:i:s', $tas_DueDate);
   $date = date('m/d/Y h:i:s a', time());  
 
-  // @todo: STORED PROCEDURE
   $taskqry = "CALL createTask( '$tas_ID', '$tas_Category', '$tas_DueDate', '$tas_Priority', '$tas_Progress', '" . $_COOKIE['current_user'] . "')";
   $progqry = "CALL createProgTask ('$tas_ID', '$date')";
 
@@ -24,6 +23,7 @@
     $link->query($progqry);
     
     setGryzlCookie("current_task", $tas_ID);
+    setGryzlCookie("current_category", $tas_Category);
     
     if ($_POST['Submit'] == "Assign Groups?") {
        header('Location: ../addgrouptotask.php');

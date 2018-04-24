@@ -12,8 +12,8 @@
   <h2>Make New Task</h2>
   <p>So What Do You Need to Do? <br><br></p>
 
-  <form action="./php/createTask_action.php" method="post">
-    Task Name: <input type="text" name="taskname" maxlength="100" required><br><br> Priority: <br>
+  <form action="./php/createTask_action.php" method="post" required>
+    Task Name: <input type="text" name="taskname" maxlength="100" ><br><br> Priority: <br>
     <input type="radio" name="priority" value="h" checked> RIGHT NOW! <br>
     <input type="radio" name="priority" value="m"> Sometime Soon. <br>
     <input type="radio" name="priority" value="l"> it can wait <br>

@@ -17,13 +17,13 @@ CREATE TABLE Users (
   PRIMARY KEY (usr_ID),
   UNIQUE(usr_Email)
 );
-INSERT INTO `Users` VALUES ('jordan','jordan_hurt@baylor.edu', 'hurt'),
+/* INSERT INTO `Users` VALUES ('jordan','jordan_hurt@baylor.edu', 'hurt'),
 ('maddie', 'maddie_dlt@baylor.edu', 'dlt'),
 ('mario', 'mariolopez@baylor.edu', 'lopez'),
 ('spongebob', 'sbsp@bikinibottom.com', 'squarepants'),
 ('patrick', 'pstar@wumbo.com', 'star'),
 ('gary', 'garysnail@food.com', 'thesnail'),
-('squidward', 'squidward@leavemebe.com', 'clarinet');
+('squidward', 'squidward@leavemebe.com', 'clarinet'); */
 
 /*
  * Table of Group Values
@@ -38,21 +38,21 @@ CREATE TABLE Groups (
   gro_Status CHAR(2) NOT NULL,
   PRIMARY KEY (gro_ID, gro_ownerID)
 );
-INSERT INTO `Groups` VALUES ('dbproj','jordan', 'a'),
- ('bbottomneighbors','spongebob','a');
+/* INSERT INTO `Groups` VALUES ('dbproj','jordan', 'a'),
+ ('bbottomneighbors','spongebob','a'); */
  
 DROP TABLE IF EXISTS Privileges; 
 CREATE TABLE Privileges(
   pri_type VARCHAR(3),
   pri_usr_ID VARCHAR(20)
 );
-INSERT INTO `Privileges` VALUES ('ad','spongebob'),
+/* INSERT INTO `Privileges` VALUES ('ad','spongebob'),
 ('ad', 'jordan'),
 ('pb', 'squidward'),
 ('pb', 'patrick'),
 ('pb', 'gary'),
 ('pb', 'maddie'),
-('ad', 'mario');
+('ad', 'mario'); */
 
 DROP TABLE IF EXISTS Tasks;
 CREATE TABLE Tasks (
@@ -64,7 +64,7 @@ CREATE TABLE Tasks (
   tas_usr_ID VARCHAR(20),
   CONSTRAINT PK_Tasks PRIMARY KEY (tas_ID, tas_Category, tas_usr_ID)
 );
-INSERT INTO `Tasks` VALUES ('addrestrictions','school', '123', 'h', 'half', 'maddie');
+/* INSERT INTO `Tasks` VALUES ('addrestrictions','school', '123', 'h', 'half', 'maddie'); */
 
 DROP TABLE IF EXISTS Task_Groups; 
 CREATE TABLE Task_Groups (
@@ -72,10 +72,10 @@ CREATE TABLE Task_Groups (
   tgr_tas_Category CHAR(15),
   tas_usr_ID VARCHAR(20),
   tgr_gro_ID VARCHAR(50)
-/*FOREIGN KEY (tgr_tas_ID) REFERENCES Tasks(tas_ID),
-FOREIGN KEY (tgr_gro_ID) REFERENCES Groups(gro_ID)*/
+  FOREIGN KEY (tgr_tas_ID) REFERENCES Tasks(tas_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (tgr_gro_ID) REFERENCES Groups(gro_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
-INSERT INTO `Task_Groups` VALUES ('addrestrictions','school', 'maddie', 'dbproj' );
+/* INSERT INTO `Task_Groups` VALUES ('addrestrictions','school', 'maddie', 'dbproj' ); */
 
 DROP TABLE IF EXISTS Progress_Task; 
 CREATE TABLE Progress_Task (
@@ -83,22 +83,23 @@ CREATE TABLE Progress_Task (
   prg_usr_ID VARCHAR(20),
   prg_tas_cat VARCHAR(15),
   prg_upd8Time VARCHAR(20)
-/*FOREIGN KEY (prg_tas_ID) REFERENCES Tasks('tas_ID') ON DELETE CASCADE ON UPDATE CASCADE*/
+  FOREIGN KEY (prg_tas_ID) REFERENCES Tasks('tas_ID') ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS Group_Members; 
 CREATE TABLE Group_Members (
   grm_gro_ID VARCHAR(50),
-  grm_usr_ID VARCHAR(20), 
+  grm_usr_ID VARCHAR(20),
   CONSTRAINT MultipleUsers2Task UNIQUE (grm_gro_ID, grm_usr_ID)
- 
-/*FOREIGN KEY (grm_gro_ID) REFERENCES Groups(gro_ID),
-FOREIGN KEY (grm_usr_ID) REFERENCES Users(usr_ID)*/
+  FOREIGN KEY (grm_gro_ID) REFERENCES Groups(gro_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (grm_usr_ID) REFERENCES Users(usr_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
-INSERT INTO `Group_Members` VALUES ('dbproj', 'jordan'),
+
+/* INSERT INTO `Group_Members` VALUES ('dbproj', 'jordan'),
 ('dbproj', 'maddie'),
 ('dbproj', 'mario'),
 ('bbottomneighbors', 'spongebob'),
 ('bbottomneighbors', 'patrick'),
 ('bbottomneighbors', 'gary'),
 ('bbottomneighbors', 'squidward');
+ */
