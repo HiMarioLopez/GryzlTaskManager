@@ -24,6 +24,7 @@
   if (mysqli_query($link, $usr_qry) && mysqli_query($link, $priv_qry)) {
     
     setGryzlCookie("current_user", $username);
+    setGryzlCookie("current_user_privileges", 'pb');
     header('Location: ../home.php');
 
   } else {

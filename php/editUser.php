@@ -21,7 +21,7 @@ if ($_POST['action'] && $_POST['id']) {
     
     /* @TODO: Delete task here */
     /* Call stored procedure */
-    
+    echo "TODO: Delete user.";
     exit();
   }
 }

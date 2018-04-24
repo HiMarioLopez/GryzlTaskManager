@@ -42,7 +42,7 @@ if ($_POST['action'] && $_POST['id']) {
   
 	<h4>So What Do You Want to Change? <br></h4>
   Leave field blank if you wish to leave an attribute unchanged. <br><br>
-	
+  
 	<form action="./submitGroupEdits.php" method="POST">
     Group Name: <input type="text" name="gro_ID" maxlength="20" placeholder="<?php echo stripslashes($groupName); ?>" </input><br>
     <br>
@@ -50,6 +50,7 @@ if ($_POST['action'] && $_POST['id']) {
     <br>
     Group Status: <input type="text" name="gro_Status" maxlength="1" placeholder="<?php echo $row["gro_Status"]; ?>" </input><br>
     <br>
+    <input type="hidden" name="old_groupName" value="<?php echo stripslashes($groupName); ?>">
     <input type="Submit" name="Submit1" value="Confirm Changes">
 	</form>
 
@@ -74,7 +75,7 @@ if ($_POST['action'] && $_POST['id']) {
 			echo "<tr><td>" . $row["Name"] .
       
       // This chunk of HTML allows us to edit or delete selected entries from the database
-      "<form action=\"./php/editGroupUsers.php\" method=\"POST\">" .
+      "<form action=\"./editGroupUsers.php\" method=\"POST\">" .
         "</td><td>" .
         "<input type=\"submit\" name=\"action\" value=\"Remove\"/>" .
         "</td><td>" .

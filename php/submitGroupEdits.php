@@ -5,6 +5,8 @@ require 'functions.php';
 
 $link = connectToServer();
 
+$old_groupName = $_POST["old_groupName"];
+
   $form_fields = array('gro_ID', 'gro_ownerID', 'gro_Status');
   $qry = '';
   
@@ -13,7 +15,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
       if ( ! empty($_POST[$fieldname])) {
         
         $value = $_POST[$fieldname];
-        $value = sanatize($link, $value);
+        $value = sanatizeNoSpecial($link, $value);
         
         $qry .= "$fieldname = '$value', ";
       }
@@ -29,9 +31,8 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
     $collection = $qry;
     
     // @TODO: Stored Procedure
-    $qry = "UPDATE Users INNER JOIN Privileges ON usr_ID = pri_usr_ID SET $qry 
-            WHERE gro = \"$old_username\"";
-    
+    $qry = "UPDATE Groups SET $qry WHERE gro_ID = \"$old_groupName\"";
+  
     if ($collection != "") {
       if ($link->query($qry) === TRUE)
         redirectHome();

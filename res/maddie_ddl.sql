@@ -9,6 +9,9 @@
  * - usr_Email is a unique value that cannot have duplicates
  * - password is stored as an encrypted value in the database
  */
+ 
+ SET FOREIGN_KEY_CHECKS=0;
+ 
 DROP TABLE IF EXISTS Users; 
 CREATE TABLE Users (
   usr_ID VARCHAR(20) NOT NULL, 
@@ -44,7 +47,8 @@ CREATE TABLE Groups (
 DROP TABLE IF EXISTS Privileges; 
 CREATE TABLE Privileges(
   pri_type VARCHAR(3),
-  pri_usr_ID VARCHAR(20)
+  pri_usr_ID VARCHAR(20),
+  FOREIGN KEY (pri_usr_ID) REFERENCES Users(usr_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 /* INSERT INTO `Privileges` VALUES ('ad','spongebob'),
 ('ad', 'jordan'),
@@ -62,7 +66,8 @@ CREATE TABLE Tasks (
   tas_Priority CHAR(2),
   tas_Progress CHAR(10),
   tas_usr_ID VARCHAR(20),
-  CONSTRAINT PK_Tasks PRIMARY KEY (tas_ID, tas_Category, tas_usr_ID)
+  CONSTRAINT PK_Tasks PRIMARY KEY (tas_ID, tas_Category, tas_usr_ID),
+  FOREIGN KEY (tas_usr_ID) REFERENCES Users(usr_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 /* INSERT INTO `Tasks` VALUES ('addrestrictions','school', '123', 'h', 'half', 'maddie'); */
 
@@ -71,7 +76,7 @@ CREATE TABLE Task_Groups (
   tgr_tas_ID VARCHAR(100),
   tgr_tas_Category CHAR(15),
   tas_usr_ID VARCHAR(20),
-  tgr_gro_ID VARCHAR(50)
+  tgr_gro_ID VARCHAR(50),
   FOREIGN KEY (tgr_tas_ID) REFERENCES Tasks(tas_ID) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (tgr_gro_ID) REFERENCES Groups(gro_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -82,18 +87,21 @@ CREATE TABLE Progress_Task (
   prg_tas_ID VARCHAR(100),
   prg_usr_ID VARCHAR(20),
   prg_tas_cat VARCHAR(15),
-  prg_upd8Time VARCHAR(20)
-  FOREIGN KEY (prg_tas_ID) REFERENCES Tasks('tas_ID') ON DELETE CASCADE ON UPDATE CASCADE
+  prg_upd8Time VARCHAR(20),
+  FOREIGN KEY (prg_tas_ID) REFERENCES Tasks(tas_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS Group_Members; 
 CREATE TABLE Group_Members (
   grm_gro_ID VARCHAR(50),
   grm_usr_ID VARCHAR(20),
-  CONSTRAINT MultipleUsers2Task UNIQUE (grm_gro_ID, grm_usr_ID)
+  CONSTRAINT MultipleUsers2Task UNIQUE (grm_gro_ID, grm_usr_ID),
   FOREIGN KEY (grm_gro_ID) REFERENCES Groups(gro_ID) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (grm_usr_ID) REFERENCES Users(usr_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+ SET FOREIGN_KEY_CHECKS=1;
+
 
 /* INSERT INTO `Group_Members` VALUES ('dbproj', 'jordan'),
 ('dbproj', 'maddie'),

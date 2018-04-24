@@ -19,14 +19,8 @@
           $value = sanatize($link, $value);
         if($fieldname != "usr_Password")
           $value = strtolower($value);
-        if($fieldname == "usr_ID") {
-          // We don't want to attempt to inner join on fifty tables
-          // So I just made a function that updates the additional tables
-          addUserToOtherTables($value, $old_username);
-        }
         
-        if($fieldname != "usr_ID")
-          $qry .= "$fieldname = '$value', ";
+        $qry .= "$fieldname = '$value', ";
       }
     }
               

@@ -47,6 +47,17 @@
         btn.addEventListener('click', function() {
           document.location.href = 'login.html';
         });
+        // This function deletes all cookies so we don't run into any issues
+        btn.addEventListener('click', function() {
+          var cookies = document.cookie.split(";");
+
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = cookies[i];
+              var eqPos = cookie.indexOf("=");
+              var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+              document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+          }
+        });
       </script>
     </div>
   </nav>
@@ -195,6 +206,62 @@
 			}
 			echo "</table>";
 			} else {
+			echo "<table> <tr><td>None!</td></tr> </table>";
+		}
+
+		mysqli_free_result($result);
+		mysqli_close($link);
+		?>
+  
+  	<br>Your Group Tasks:
+
+		<?php
+		$link = connectToServer();
+
+    // Select statement for presenting relevant user data
+		$qry = "select tas_ID, tas_Category, tas_DueDate, tas_Priority, tas_Progress, gro_ID from Users
+    INNER JOIN Tasks ON usr_ID=tas_usr_ID INNER JOIN Task_Groups ON tas_ID=tgr_tas_ID INNER JOIN Groups ON gro_ID=tgr_gro_ID 
+    WHERE usr_ID='" . $_COOKIE['current_user'] . "'";
+  
+		$result = mysqli_query($link, $qry);
+
+		if(mysqli_num_rows($result) > 0) {
+      // Embed image to signify which tables you can sort (right now it's just alpha)
+      echo "<table id=\"taskTable\"> <tr> 
+			<th>TaskID</th> 
+			<th style=\"white-space:nowrap;\" onclick=\"sortTable(1)\">Category <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th> 
+			<th style=\"white-space:nowrap;\" onclick=\"sortTable(2)\">DueDate <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th> 
+			<th style=\"white-space:nowrap;\" onclick=\"sortTable(3)\">Priority <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th>
+			<th style=\"white-space:nowrap;\" onclick=\"sortTable(4)\">Progress <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th>
+			<th style=\"white-space:nowrap;\" onclick=\"sortTable(4)\">Group <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th>
+			<th>Edit Task</th>
+			<th>Delete Task</th>
+			</tr>";
+
+			// Output data of each row
+			while($row = mysqli_fetch_assoc($result)) {
+				echo "<tr id=\"prio-" . $row["tas_Priority"] . "\"><td>" . $row["tas_ID"] .
+				"</td><td>" . $row["tas_Category"] .
+				"</td><td>" . $row["tas_DueDate"] .
+				"</td><td>" . $row["tas_Priority"] .
+				"</td><td>" . $row["tas_Progress"] .
+				"</td><td>" . $row["gro_ID"] .
+
+        // This chunk of HTML allows us to edit or delete selected entries from the database
+        "<form action=\"./php/editTask.php\" method=\"POST\">" .
+          "</td><td>" .
+          "<input type=\"submit\" name=\"action\" value=\"Edit\"/>" .
+          "</td><td>" .
+          "<input type=\"submit\" name=\"action\" value=\"Delete\"/>" .
+          "<input type=\"hidden\" name=\"id\" value=\"" . $row['tas_ID'] . "\"/>" .
+          "<input type=\"hidden\" name=\"cat\" value=\"" . $row['tas_Category'] . "\"/>" .
+        "</form>" .
+          
+				"</td></tr>";
+			}
+			echo "</table>";
+			} else {
+      // No tuples returned - show empty table
 			echo "<table> <tr><td>None!</td></tr> </table>";
 		}
 

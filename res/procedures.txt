@@ -1,0 +1,83 @@
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `addGroup2Task`(IN `taskID` VARCHAR(100), IN `tasCategory` CHAR(15), IN `userID` VARCHAR(20), IN `groupID` VARCHAR(50))
+INSERT INTO Task_Groups (tgr_tas_ID, tgr_tas_Category, tas_usr_ID, tgr_gro_ID) 
+VALUES (taskID, tasCategory, userID, groupID)
+
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `addMems2Group`(IN `currGName` VARCHAR(50), IN `currName` VARCHAR(20))
+    DETERMINISTIC
+INSERT INTO Group_Members (grm_gro_ID, grm_usr_ID) 
+ VALUES (currGName, currName)
+ 
+ CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `adduser`(IN `uname` VARCHAR(20), IN `email` VARCHAR(50), IN `pword` VARCHAR(255))
+    DETERMINISTIC
+INSERT INTO Users (usr_ID, usr_Email, usr_Password) VALUES 
+(uname, email, pword)
+
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `addUser2Group`(IN `gName` VARCHAR(50), IN `currUser` VARCHAR(20))
+    DETERMINISTIC
+    COMMENT 'this is used to add a user to a group'
+INSERT INTO Group_Members VALUES ( gName, currUser)
+
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `assignpriv`(IN `uname` VARCHAR(20))
+    DETERMINISTIC
+    COMMENT 'assign privileges to new users'
+INSERT INTO Privileges ( pri_type, pri_usr_ID) VALUES ( 'pb', uname)
+
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `createGroup`(IN `gName` VARCHAR(50), IN `currUser` VARCHAR(20))
+INSERT INTO Groups (gro_ID, gro_ownerID, gro_Status) VALUES ( gName, currUser, 'a')
+
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `createProgTask`(IN `task` VARCHAR(100), IN `date` DATETIME)
+    DETERMINISTIC
+INSERT INTO Progress_Task VALUES (task, date)
+
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `createTask`(IN `id` VARCHAR(100), IN `cat` VARCHAR(15), IN `dDate` DATETIME, IN `prior` VARCHAR(2), IN `prog` VARCHAR(10), IN `user` VARCHAR(20))
+    DETERMINISTIC
+INSERT INTO Tasks VALUES 
+(id, 
+cat, 
+dDate,
+prior,
+prog, 
+user)
+
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `deleteMemFromGroup`(IN `name` VARCHAR(20))
+    DETERMINISTIC
+    COMMENT 'removes user from group'
+DELETE FROM Group_Members WHERE grm_usr_ID='name'
+
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `deleteTaskFromProgressTask`(IN `tName` VARCHAR(100), IN `uName` VARCHAR(20), IN `cat` VARCHAR(15))
+    DETERMINISTIC
+DELETE FROM Progress_Task WHERE prg_tas_ID= taskName
+AND prg_usr_ID = uName 
+AND prg_Category = cat
+
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `deleteTaskFromTaskGroup`(IN `tName` VARCHAR(100), IN `uName` VARCHAR(20), IN `cat` VARCHAR(15))
+    DETERMINISTIC
+DELETE FROM Task_Groups
+WHERE tgr_tas_ID= tName
+AND tgr_usr_ID = uName 
+AND tgr_Category = cat
+
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `deleteTaskFromTasks`(IN `tName` VARCHAR(100), IN `uName` VARCHAR(20), IN `cat` VARCHAR(15))
+    DETERMINISTIC
+DELETE FROM Tasks WHERE (tas_ID= tName 
+AND tas_usr_ID = uName 
+AND tas_Category = cat)
+
+
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `doesUserExist`(IN `usrName` VARCHAR(20))
+    DETERMINISTIC
+    COMMENT '- used to see if user exists before adding to a group'
+SELECT EXISTS(SELECT usr_ID FROM Users WHERE Users.usr_ID = usrName GROUP BY usr_ID)
+
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `taskExist`(IN `tName` VARCHAR(100), IN `uName` VARCHAR(20), IN `cat` VARCHAR(15))
+    DETERMINISTIC
+SELECT * FROM Tasks WHERE tas_ID= tName AND
+tas_usr_ID = uName AND tas_Category = cat
+
+
+CREATE DEFINER=`webAccess`@`localhost` PROCEDURE `userLoginandExist`(IN `uName` VARCHAR(20))
+    DETERMINISTIC
+SELECT * 
+FROM Users INNER JOIN Privileges 
+ON usr_ID = pri_usr_ID 
+WHERE usr_ID = uName
