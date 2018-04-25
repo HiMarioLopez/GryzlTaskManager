@@ -17,11 +17,11 @@
 
   function setGryzlCookie($cookie_name, $username) {
     unset($_COOKIE[$cookie_name]);
-		// We set the cookie to expire after 30 days, for some reason
+		// We set the cookie to expire after 30 days
     setcookie($cookie_name, $username, time() +  (86400 * 30), "/");
   }
 
-  // @todo: don't use root
+  
   function connectToServer() {
     $link = mysqli_connect("localhost","webAccess", "jordan", "Gryzl");
     

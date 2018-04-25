@@ -11,7 +11,13 @@
 </head>
 <body>
 
-  <!-- Navbar with Logout button -->
+    <div align="right">
+      <form class="btn-group" action="./php/addmemstogroup_action.php" method="post">
+        <input class="btn" type="submit" name="actions" value="Home"></input>
+        <input class="btn" type="submit" name="actions" value="Logout"></input>
+      </form>
+    </div>
+  <!-- Navbar with Logout button 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +47,8 @@
           <a class="nav-link disabled" href="#">Disabled</a>
         </li>
       </ul>
-      <button class="btn btn-outline-success my-2 my-sm-0" id="logout_button" type="submit">Logout</button>
+      <button class="btn btn-outline-danger my-2 my-sm-0" id="logout_button" type="submit">Logout</button>
+       <-->
       <script>
         var btn = document.getElementById('logout_button');
         btn.addEventListener('click', function() {
@@ -60,7 +67,6 @@
         });
       </script>
     </div>
-  </nav>
   
   <div class="jumbotron">
     <h1 class="display-4">Welcome to the home screen, <?php echo ucwords($_COOKIE['current_user']) ?>!</h1>
@@ -71,29 +77,81 @@
       <form action="./php/home_action.php" method="POST">
         Add Group: <input type="radio" name="homeAction" value="addGroup"><br>
         Add Task:  <input type="radio" name="homeAction" value="addTask"><br>
-        <input type="submit">
+        <input class="btn" type="submit">
       </form>
     </p>
+  </div>
 
-	
-	<br>Current Groups You Manage:
+  <br>Your Current Tasks:
+
+  <?php
+  require './php/functions.php';
+  $link = connectToServer();
+
+  // TODO: Stored Procedure
+  $qry = "SELECT tas_ID TaskID, tas_Category Category, tas_DueDate DueDate, tas_Priority Priority, tas_Progress Progress
+          FROM Tasks WHERE tas_usr_ID='" . $_COOKIE['current_user'] . "'";
+  $result = mysqli_query($link, $qry);
+
+  if(mysqli_num_rows($result) > 0) {
+    echo "<table id=\"taskTable\" class=\"table table-hover table-dark table-striped\"> <tr> <thead class=\"thead-light\"> 
+    <th>TaskID</th> 
+    <th>Category</th> 
+    <th>DueDate</th> 
+    <th>Priority</th>
+    <th>Progress</th>
+    <th></th>
+    <th></th>
+    </tr></thead>";
+
+    // Output data of each row
+    while($row = mysqli_fetch_assoc($result)) {
+      echo "<tr id=\"prio-" . $row["Priority"] . "\"><td>" . $row["TaskID"] .
+      "</td><td>" . $row["Category"] .
+      "</td><td>" . $row["DueDate"] .
+      "</td><td>" . $row["Priority"] .
+      "</td><td>" . $row["Progress"] .
+
+      // This chunk of HTML allows us to edit or delete selected entries from the database
+      "<form action=\"./php/editTask.php\" method=\"POST\">" .
+        "</td><td>" .
+        "<input type=\"submit\" name=\"action\" value=\"Edit\"/>" .
+        "</td><td>" .
+        "<input type=\"submit\" name=\"action\" value=\"Delete\"/>" .
+        "<input type=\"hidden\" name=\"id\" value=\"" . $row['TaskID'] . "\"/>" .
+        "<input type=\"hidden\" name=\"cat\" value=\"" . $row['Category'] . "\"/>" .
+        "<input type=\"hidden\" name=\"uname\" value=\"" . $_COOKIE["current_user"] . "\"/>" .
+      "</form>" .
+
+      "</td></tr>";
+    }
+    echo "</table>";
+    } else {
+    echo "<table class=\"table table-hover table-dark table-striped\"> <tr><td>None!</td></tr> </table>";
+  }
+
+  mysqli_free_result($result);
+  mysqli_close($link);
+  ?>
+
+	Current Groups You Manage:
 
 	<?php
-	require './php/functions.php';
 
 	$link = connectToServer();
 
+  // TODO: Stored Procedure
 	$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
 					FROM Groups WHERE gro_ownerID = '" . $_COOKIE['current_user'] . "'";
 	$result = mysqli_query($link, $qry);
 
 	if(mysqli_num_rows($result) > 0) {
-		echo "<table> <tr> 
+		echo "<table class=\"table table-hover table-dark table-striped\"> <tr>  <thead class=\"thead-light\">
 		<th>GroupID</th> 
 		<th>OwnerID</th> 
 		<th>Status</th>       
 		<th>Edit Group</th> 
-		<th>Delete Group</th> 
+		<th>Delete Group</th> </thead>
 		</tr>";
 
 		// Output data of each row
@@ -105,9 +163,9 @@
       // This chunk of HTML allows us to edit or delete selected entries from the database
       "<form action=\"./php/editGroup.php\" method=\"POST\">" .
         "</td><td>" .
-        "<input type=\"submit\" name=\"action\" value=\"Edit\"/>" .
+        "<input class=\"btn\" type=\"submit\" name=\"action\" value=\"Edit\"/>" .
         "</td><td>" .
-        "<input type=\"submit\" name=\"action\" value=\"Delete\"/>" .
+        "<input class=\"btn\" type=\"submit\" name=\"action\" value=\"Delete\"/>" .
         "<input type=\"hidden\" name=\"id\" value=\"" . $row['GroupID'] . "\"/>" .
       "</form>" .
         
@@ -115,7 +173,7 @@
 		}
 		echo "</table>";
 		} else {
-		echo "<table> <tr><td>None!</td></tr> </table>";
+		echo "<table class=\"table table-hover table-dark table-striped\"> <tr><td>None!</td></tr> </table>";
 	}
 
 	mysqli_free_result($result);
@@ -127,6 +185,7 @@
 	<?php
 	$link = connectToServer();
 
+  // TODO: Stored Procedure
 	$qry = "SELECT gro_ID GroupID, gro_ownerID OwnerID, gro_Status Status 
 					FROM Groups INNER JOIN Group_Members ON gro_ID = grm_gro_ID 
 					WHERE Group_Members.grm_usr_ID ='" . $_COOKIE['current_user'] . "' AND gro_ID NOT IN (
@@ -134,12 +193,12 @@
 	$result = mysqli_query($link, $qry);
 
 	if(mysqli_num_rows($result) > 0) {
-		echo "<table> <tr>
+		echo "<table class=\"table table-hover table-dark table-striped\"> <tr> <thead class=\"thead-light\">
 		<th>GroupID</th>
 		<th>OwnerID</th>
 		<th>Status</th>
 		<th>Leave Group</th>
-		</tr>";
+		</tr></thead>";
 
 		// Output data of each row
 		while($row = mysqli_fetch_assoc($result)) {
@@ -152,73 +211,25 @@
         "</td><td>" .
         "<input type=\"submit\" name=\"action\" value=\"Leave\"/></td>" .
         "<input type=\"hidden\" name=\"id\" value=\"" . $row['GroupID'] . "\"/>" .
+        "<input type=\"hidden\" name=\"uname\" value=\"" . $_COOKIE["current_user"] . "\"/>" .
       "</form></tr>";
 		}
 		echo "</table>";
 		} else {
-		echo "<table> <tr><td>None!</td></tr> </table>";
+		echo "<table class=\"table table-hover table-dark table-striped\"> <tr><td>None!</td></tr> </table>";
 	}
 
 	mysqli_free_result($result);
 	mysqli_close($link);
 	?>
 	
-  	<br>Your Current Tasks:
-
-		<?php
-		$link = connectToServer();
-
-		$qry = "SELECT tas_ID TaskID, tas_Category Category, tas_DueDate DueDate, tas_Priority Priority, tas_Progress Progress
-						FROM Tasks WHERE tas_usr_ID='" . $_COOKIE['current_user'] . "'";
-		$result = mysqli_query($link, $qry);
-
-		if(mysqli_num_rows($result) > 0) {
-			echo "<table id=\"taskTable\"> <tr> 
-			<th>TaskID</th> 
-			<th style=\"white-space:nowrap;\" onclick=\"sortTable(1)\">Category <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th> 
-			<th style=\"white-space:nowrap;\" onclick=\"sortTable(2)\">DueDate <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th> 
-			<th style=\"white-space:nowrap;\" onclick=\"sortTable(3)\">Priority <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th>
-			<th style=\"white-space:nowrap;\" onclick=\"sortTable(4)\">Progress <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th>
-			<th>Edit Task</th>
-			<th>Delete Task</th>
-			</tr>";
-
-			// Output data of each row
-			while($row = mysqli_fetch_assoc($result)) {
-				echo "<tr id=\"prio-" . $row["Priority"] . "\"><td>" . $row["TaskID"] .
-				"</td><td>" . $row["Category"] .
-				"</td><td>" . $row["DueDate"] .
-				"</td><td>" . $row["Priority"] .
-				"</td><td>" . $row["Progress"] .
-				
-        // This chunk of HTML allows us to edit or delete selected entries from the database
-        "<form action=\"./php/editTask.php\" method=\"POST\">" .
-          "</td><td>" .
-          "<input type=\"submit\" name=\"action\" value=\"Edit\"/>" .
-          "</td><td>" .
-          "<input type=\"submit\" name=\"action\" value=\"Delete\"/>" .
-          "<input type=\"hidden\" name=\"id\" value=\"" . $row['TaskID'] . "\"/>" .
-          "<input type=\"hidden\" name=\"cat\" value=\"" . $row['Category'] . "\"/>" .
-          "<input type=\"hidden\" name=\"uname\" value=\"" . $_COOKIE["current_user"] . "\"/>" .
-        "</form>" .
-          
-				"</td></tr>";
-			}
-			echo "</table>";
-			} else {
-			echo "<table> <tr><td>None!</td></tr> </table>";
-		}
-
-		mysqli_free_result($result);
-		mysqli_close($link);
-		?>
-  
   	<br>Your Group Tasks:
 
 		<?php
 		$link = connectToServer();
 
     // Select statement for presenting relevant user data
+    // TODO: Stored Procedure
 		$qry = "SELECT * FROM Group_Members INNER JOIN Groups ON grm_gro_ID=gro_ID INNER JOIN Task_Groups ON grm_gro_ID=tgr_gro_ID INNER JOIN Tasks ON tgr_tas_ID=tas_ID
     WHERE grm_usr_ID='" . $_COOKIE['current_user'] . "'";
   
@@ -226,16 +237,16 @@
 
 		if(mysqli_num_rows($result) > 0) {
       // Embed image to signify which tables you can sort (right now it's just alpha)
-      echo "<table id=\"taskTable\"> <tr> 
+      echo "<table id=\"taskTable\" class=\"table table-hover table-dark table-striped\"> <tr> <thead class=\"thead-light\"> 
 			<th>TaskID</th> 
-			<th style=\"white-space:nowrap;\" onclick=\"sortTable(1)\">Category <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th> 
-			<th style=\"white-space:nowrap;\" onclick=\"sortTable(2)\">DueDate <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th> 
-			<th style=\"white-space:nowrap;\" onclick=\"sortTable(3)\">Priority <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th>
-			<th style=\"white-space:nowrap;\" onclick=\"sortTable(4)\">Progress <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th>
-			<th style=\"white-space:nowrap;\" onclick=\"sortTable(4)\">Group <img src=\"./res/sort-by-attributes.svg\" alt=\"SortColumn\"> </th>
-			<th>Edit Task</th>
-			<th>Delete Task</th>
-			</tr>";
+			<th>Category</th> 
+			<th>DueDate</th> 
+			<th>Priority</th>
+			<th>Progress</th>
+			<th>Group</th>
+			<th></th>
+			<th></th>
+			</tr></thead>";
 
 			// Output data of each row
 			while($row = mysqli_fetch_assoc($result)) {
@@ -261,70 +272,14 @@
 			echo "</table>";
 			} else {
       // No tuples returned - show empty table
-			echo "<table> <tr><td>None!</td></tr> </table>";
+			echo "<table class=\"table table-hover table-dark table-striped\"> <tr><td>None!</td></tr> </table>";
 		}
 
 		mysqli_free_result($result);
 		mysqli_close($link);
 		?>
-  
-    <script>
-    function sortTable(n) {
-    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById("taskTable");
-    switching = true;
-    // Set the sorting direction to ascending:
-    dir = "asc"; 
-    /* Make a loop that will continue until
-    no switching has been done: */
-    while (switching) {
-      // Start by saying: no switching is done:
-      switching = false;
-      rows = table.getElementsByTagName("TR");
-      /* Loop through all table rows (except the
-      first, which contains table headers): */
-      for (i = 1; i < (rows.length - 1); i++) {
-        // Start by saying there should be no switching:
-        shouldSwitch = false;
-        /* Get the two elements you want to compare,
-        one from current row and one from the next: */
-        x = rows[i].getElementsByTagName("TD")[n];
-        y = rows[i + 1].getElementsByTagName("TD")[n];
-        /* Check if the two rows should switch place,
-        based on the direction, asc or desc: */
-        if (dir == "asc") {
-          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-            // If so, mark as a switch and break the loop:
-            shouldSwitch= true;
-            break;
-          }
-        } else if (dir == "desc") {
-          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-            // If so, mark as a switch and break the loop:
-            shouldSwitch= true;
-            break;
-          }
-        }
-      }
-      if (shouldSwitch) {
-        /* If a switch has been marked, make the switch
-        and mark that a switch has been done: */
-        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-        switching = true;
-        // Each time a switch is done, increase this count by 1:
-        switchcount ++; 
-      } else {
-        /* If no switching has been done AND the direction is "asc",
-        set the direction to "desc" and run the while loop again. */
-        if (switchcount === 0 && dir == "asc") {
-          dir = "desc";
-          switching = true;
-        }
-      }
-    }
-  }
-  </script>
-  </div>
+
+</div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

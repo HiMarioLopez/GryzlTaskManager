@@ -28,8 +28,8 @@
     header('Location: ../home.php');
 
   } else {
+    // TODO: Change this to HTML. Make it look good. idk
     echo "<h1>Registration unsuccessful. Has this username/email already been used? <br></h1>";
-    echo $usr_qry;
     // Redirect button
     // This is using some scrappy JavaScript embeded into my PHP code...
     echo "<button id=\"myBtn\">Back to registration page!</button>" .

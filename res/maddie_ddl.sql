@@ -9,8 +9,9 @@
  * - usr_Email is a unique value that cannot have duplicates
  * - password is stored as an encrypted value in the database
  */
- 
- SET FOREIGN_KEY_CHECKS=0;
+
+/* Don't use this. Don't be stupid. */
+/* SET FOREIGN_KEY_CHECKS=0; */
  
 DROP TABLE IF EXISTS Users; 
 CREATE TABLE Users (
@@ -40,6 +41,7 @@ CREATE TABLE Groups (
   gro_ownerID VARCHAR(20) NOT NULL,
   gro_Status CHAR(2) NOT NULL,
   PRIMARY KEY (gro_ID, gro_ownerID)
+  FOREIGN KEY (gro_ownerID) REFERENCES Users(usr_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 /* INSERT INTO `Groups` VALUES ('dbproj','jordan', 'a'),
  ('bbottomneighbors','spongebob','a'); */
@@ -90,7 +92,7 @@ CREATE TABLE Progress_Task (
   prg_upd8Time VARCHAR(20),
   FOREIGN KEY (prg_tas_ID) REFERENCES Tasks(tas_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
+  
 DROP TABLE IF EXISTS Group_Members; 
 CREATE TABLE Group_Members (
   grm_gro_ID VARCHAR(50),
@@ -100,7 +102,7 @@ CREATE TABLE Group_Members (
   FOREIGN KEY (grm_usr_ID) REFERENCES Users(usr_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
- SET FOREIGN_KEY_CHECKS=1;
+/*  SET FOREIGN_KEY_CHECKS=1; */
 
 
 /* INSERT INTO `Group_Members` VALUES ('dbproj', 'jordan'),
