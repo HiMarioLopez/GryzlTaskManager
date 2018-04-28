@@ -11,13 +11,8 @@
 </head>
 <body>
 
-    <div align="right">
-      <form class="btn-group" action="./php/addmemstogroup_action.php" method="post">
-        <input class="btn" type="submit" name="actions" value="Home"></input>
-        <input class="btn" type="submit" name="actions" value="Logout"></input>
-      </form>
-    </div>
-  <!-- Navbar with Logout button 
+  <div class="container-fluid bg">
+  <!-- Navbar with Logout button -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +43,6 @@
         </li>
       </ul>
       <button class="btn btn-outline-danger my-2 my-sm-0" id="logout_button" type="submit">Logout</button>
-       <-->
       <script>
         var btn = document.getElementById('logout_button');
         btn.addEventListener('click', function() {
@@ -67,6 +61,7 @@
         });
       </script>
     </div>
+  </nav>
   
   <div class="jumbotron">
     <h1 class="display-4">Welcome to the home screen, <?php echo ucwords($_COOKIE['current_user']) ?>!</h1>
@@ -161,7 +156,7 @@
 			"</td><td>" . $row["Status"] .
       
       // This chunk of HTML allows us to edit or delete selected entries from the database
-      "<form action=\"./php/editGroup.php\" method=\"POST\">" .
+      "<form action=\"./php/editOrDelete_action.php\" method=\"POST\">" .
         "</td><td>" .
         "<input class=\"btn\" type=\"submit\" name=\"action\" value=\"Edit\"/>" .
         "</td><td>" .

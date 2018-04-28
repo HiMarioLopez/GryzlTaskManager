@@ -1,23 +1,16 @@
 body {
   font-family: 'Roboto Condensed', sans-serif;
-  opacity: 0.7;
+  opacity: .85;
+  background: none;
 }
 
 html {
-  background-color: #f9f9f9;
-}
-
-body,
-html {
-  height: 100%;
-}
-
-.bg {
   /* The image used */
-  background-image: url("../res/dreams.png");
+  background: url("../res/dreams.png") no-repeat;
   /* Full height */
   height: 100%;
   /* Center and scale the image nicely */
   position: static;
   background-size: cover;
+  background-attachment: fixed;
 }

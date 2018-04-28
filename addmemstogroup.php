@@ -15,18 +15,17 @@
 
   <div class="container-fluid bg">
     
-<!--     Logout and Home Buttons -->
-<!--   <div align="right">
+<!--Logout and Home Buttons -->
+  <div align="right">
     <form class="btn-group" action="./php/addmemstogroup_action.php" method="post">
       <input class="btn" type="submit" name="actions" value="Home"></input>
       <input class="btn" type="submit" name="actions" value="Logout"></input>
     </form>
-  </div> -->
-    
+  </div>
     <div class="d-flex p-4">
       <div class="card mx-auto my-auto bg-dark text-light">
         <div class="card-body">
-          <h4 class="card-title">Add Group members</h4>
+          <h4 class="card-title">Add Group Members</h4>
           <div class="form-group">
             <form action="./php/addmemstogroup_action.php" method="post">
               <label for="name">User to add:</label> 
@@ -36,7 +35,6 @@
               <input type="radio" name="addmems" value="done"> No!<br>
               <input class="btn" type="submit">
             </form>   
-            <br><button class="btn btn-outline-success my-2 my-sm-0" id="home_button" type="submit">Go Back Home</button>
             <script>
               var btn = document.getElementById('home_button');
               btn.addEventListener('click', function() {

@@ -17,8 +17,14 @@
         
         if($fieldname != "pri_type")
           $value = sanatize($link, $value);
-        if($fieldname != "usr_Password")
+        if($fieldname != "usr_Password") {
           $value = strtolower($value);
+        }
+        if($fieldname == "usr_Password" ) {
+           $value = sanatize($link, $value);
+           $value = password_hash($value, PASSWORD_DEFAULT);
+         }
+
         
         $qry .= "$fieldname = '$value', ";
       }

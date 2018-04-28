@@ -21,7 +21,7 @@ if ($_POST['action'] && $_POST['id']) {
     $userName = $_POST['id'];
     
     // TODO: Stored Procedure
-    $qry = "DELETE FROM Users WHERE usr_ID='$userName'";
+    $qry = "CALL deleteFromUsers ('" . $userName . "')";
     
     if(mysqli_query($link, $qry))
       redirectHome();

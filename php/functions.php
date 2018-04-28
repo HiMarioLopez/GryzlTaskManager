@@ -40,47 +40,20 @@
       exit();
 	}
 
-	function addUserToOtherTables($username, $old_username) {
-		$link = connectToServer();
-		
-		// @TODO: STORED PROCEDURES
-		// ALL OF THEM!!!
-		$qry = "UPDATE Users SET usr_ID = '$username' WHERE usr_ID = '$old_username'";
-		if ($link->query($qry) == TRUE)
-			echo "Users Query: " . $qry . "<br>";
-		else
-			echo "Error updating record: " . $link->error;
-		
-		$qry = "UPDATE Privileges SET pri_usr_ID = '$username' WHERE pri_usr_ID = \"$old_username\"";
+  function checkDate6Month($taskDueDate){
+    $sixMonths = date("Y-m-d", strtotime("+6 month"));
+    if ($taskDueDate < $sixMonths)
+      return true;
+    else
+      return false;
+  }
 
-		if ($link->query($qry) === TRUE)
-			echo "Privileges Query: " . $qry . "<br>";
-		else
-			echo "Error updating record: " . $link->error;
-		
-		$qry = "UPDATE Group_Members SET grm_usr_ID = '$username' WHERE grm_usr_ID = \"$old_username\"";	
-				
-		if ($link->query($qry) === TRUE)
-			echo "Group_Members Query: " . $qry . "<br>";
-		else
-			echo "Error updating record: " . $link->error;
-		
-		$qry = "UPDATE Groups SET gro_ownerID = '$username' WHERE gro_ownerID = \"$old_username\"";
-		
-		if ($link->query($qry) === TRUE)
-			echo "Groups Query: " . $qry . "<br>";
-		else
-			echo "Error updating record: " . $link->error;
-		
-		$qry = "UPDATE Tasks SET tas_usr_ID = '$username' WHERE tas_usr_ID = \"$old_username\"";
-
-		if ($link->query($qry) === TRUE)
-			echo "Tasks Query: " . $qry . "<br>";
-		else
-			echo "Error updating record: " . $link->error;
-		
-		mysqli_close($link);
-		// Are we even using Task_Owners anymore? Who knows...
-	}
-
+  function clearStoredResults($mysqli_link) {
+      while($mysqli_link->more_results()) {
+           $mysqli_link->next_result();
+           if($l_result = $mysqli_link->store_result()) {
+                $l_result->free();
+           }
+       }
+  }
 ?>

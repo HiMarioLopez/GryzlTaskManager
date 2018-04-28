@@ -13,6 +13,12 @@
 <body>
   
   <div class="container-fluid bg">
+    <div align="right">
+    <form class="btn-group" action="./php/addmemstogroup_action.php" method="post">
+      <input class="btn" type="submit" name="actions" value="Home"></input>
+      <input class="btn" type="submit" name="actions" value="Logout"></input>
+    </form>
+    </div>
     <div class="d-flex p-4">
       <div class="card mx-auto my-auto bg-dark text-light">
         <div class="card-body">
@@ -24,7 +30,6 @@
               <input id="gname" class="form-control" type="text" name="groupname" maxlength="50" required><br>
               <input class="btn" type="submit">
             </form>
-            <br><button class="btn btn-outline-success my-2 my-sm-0" id="home_button" type="submit">Go Back Home</button>
             <script>
               var btn = document.getElementById('home_button');
               btn.addEventListener('click', function() {

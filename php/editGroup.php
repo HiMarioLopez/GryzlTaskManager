@@ -1,40 +1,14 @@
 <?php
+  require 'functions.php';
+  $groupName = $_COOKIE["current_group"];
 
-require 'functions.php';
-
-if ($_POST['action'] && $_POST['id']) {
-	// Editing a group!  
-	if ($_POST['action'] == 'Edit') {
- 
-    $groupName = $_POST['id'];
+  // TODO: Stored Procedure
+  $qry = "CALL chooseGroups('". $groupName . "')";
     
-    $link = connectToServer();
-    $groupName = sanatize($link, $groupName);
-    setGryzlCookie("current_group", $groupName);
+  $link = connectToServer();
+  $result = mysqli_query($link, $qry);
     
-    // TODO: Stored Procedure
-    $qry = "SELECT * FROM Groups WHERE gro_ID='$groupName'";
-    
-    $result = mysqli_query($link, $qry);
-    
-    $row = mysqli_fetch_assoc($result);
-	// Deleting a group!
-  } else if($_POST['action'] == 'Delete') {
-    $link = connectToServer();
-    $groupName = $_POST['id'];
-    $groupName = sanatize($link, $groupName);
-    
-    $qry = "DELETE FROM Groups WHERE gro_ID='$groupName'";
-    
-    if(mysqli_query($link, $qry))
-      redirectHome();
-    else
-      echo "Error: " . $qry . "<br>" . $link->error;
-    
-    exit();
-  }
-}
-
+  $row = mysqli_fetch_assoc($result);
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +34,7 @@ if ($_POST['action'] && $_POST['id']) {
           <div class="form-group">
             <form action="./submitGroupEdits.php" method="POST">
               <label for="gname">Group Name:</label> 
-              <input class="form-control" type="text" name="gro_ID" maxlength="50" placeholder="<?php echo stripslashes($groupName); ?>" </input><br>
+              <input class="form-control" type="text" name="gro_ID" maxlength="50" placeholder="<?php echo $row["gro_ID"]; ?>" </input><br>
               <br>
               <label for="gown">Group Owner:</label>
               <input class="form-control" type="text" name="gro_ownerID" maxlength="20" placeholder="<?php echo $row["gro_ownerID"]; ?>" </input><br>
@@ -139,3 +113,4 @@ if ($_POST['action'] && $_POST['id']) {
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   
 </html>
+

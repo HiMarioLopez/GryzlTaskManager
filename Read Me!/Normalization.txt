@@ -1,0 +1,4 @@
+Our database is in 3rd normal form:
+         - We eliminated redundant columns from the schema
+         - Primary keys are used and all other values in the table depend upon those in the primary key
+         - There are no transitive dependencies in the schema
